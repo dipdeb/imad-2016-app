@@ -21,7 +21,7 @@ btn.onclick = function() {
 }
 var sbmt_btn = document.getElementById('sbmt_btn');
 
-if (sbmt_btn != undefined) {
+if (sbmt_btn !== undefined) {
 sbmt_btn.onclick = function () {
 	var commentEl = document.getElementById('comment');
 	var comment = commentEl.value;
