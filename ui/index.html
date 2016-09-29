@@ -2,10 +2,11 @@
 <html>
     <head>
         <link href="/ui/style.css" rel="stylesheet" />
+		<title>Welcome to deb's world</title>
     </head>
     <body>
         <div class="center">
-            <img src="/ui/madi.png" class="img-medium"/>
+            <img src="https://xpbs.twimg.com/profile_images/594542945128218624/YCGLba7V.jpg" class="img-medium"/>
         </div>
         <br>
         <!--div class="center text-big bold"-->
@@ -16,7 +17,17 @@
 			<a href="/article-two">Article Two</a>
 			<a href="/article-three">Article Three</a>
         </div>
-        <script type="text/javascript" src="/ui/main.js">
-        </script>
+		<hr/>
+		<div>
+			This button <button id="counter">Click!</button> has been clicked <span id="count">0</span> times.
+		</div>
+		<hr/>
+		<div>
+			Enter your comment: <input type="text" id="comment" maxlength="20"></input>
+			<button id="sbmt_btn">Submit</button>
+		</div>
+		<div id="box" style="display:none; border: 1px solid #D3D3D3;margin-top: 4px;background-color:#FFFFD4;max-height:150px;width:250px;overflow:auto;">
+		</div>
+        <script type="text/javascript" src="/ui/main.js"></script>
     </body>
 </html>
