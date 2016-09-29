@@ -49,37 +49,37 @@ function createTemplate (data) {
     
     var htmlTemplate = 
     `<html>  
-      <head> 
-          <title>  
-              ${title}
-          </title> 
-          <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-          <link href="/ui/style.css" rel="stylesheet" />  
-      </head>  
-      <body> 
-          <div class="container"> 
-              <div> 
-                  <a href="/">Home</a> 
-              </div> 
-              <hr/> 
-              <h3> 
-                  ${heading}
-              </h3> 
-              <div> 
-                  ${date}
-              </div> 
-              <div> 
-                ${content}
-              </div> 
-				<div>
+        <head> 
+            <title>  
+                ${title}
+            </title> 
+            <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+            <link href="/ui/style.css" rel="stylesheet" />  
+        </head>  
+        <body> 
+            <div class="container"> 
+                <div> 
+                    <a href="/">Home</a> 
+                </div> 
+                <hr/> 
+                <h3> 
+                    ${heading}
+                </h3> 
+                <div> 
+                    ${date}
+                </div> 
+                <div> 
+                    ${content}
+                </div> 
+			    <div>
 					Enter your comment: <input type="text" id="comment" maxlength="20"></input>
 					<button id="sbmt_btn">Submit</button>
-				</div>
-				<div id="box" style="display:none; border: 1px solid #D3D3D3;margin-top: 4px;background-color:#FFFFD4;max-height:150px;width:250px;overflow:auto;">
-				</div>
-          </div> 
-        <script type="text/javascript" src="/ui/main.js"></script>
-      </body> 
+			    </div>
+			    <div id="box" style="display:none; border: 1px solid #D3D3D3;margin-top: 4px;background-color:#FFFFD4;max-height:150px;width:250px;overflow:auto;">
+			    </div>
+            </div> 
+            <script type="text/javascript" src="/ui/main.js"></script>
+        </body> 
     </html>`
     ;
     return htmlTemplate;
