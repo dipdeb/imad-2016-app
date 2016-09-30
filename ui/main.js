@@ -1,6 +1,6 @@
 var btn = document.getElementById('counter');
 
-if (btn != undefined) {
+if (btn !== undefined) {
 btn.onclick = function() {
 
 	var req = new XMLHttpRequest();
