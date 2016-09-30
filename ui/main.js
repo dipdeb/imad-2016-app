@@ -15,7 +15,7 @@ btn.onclick = function() {
 		}
 	};
 
-	req.open('GET', 'http://ssh.imad.hasura-app.io:2400/counter', true);
+	req.open('GET', document.URL+'/counter', true);
 	req.send(null);
 };
 }
@@ -48,7 +48,7 @@ sbmt_btn.onclick = function () {
 		}
 	};
 	
-	req.open('GET', 'http://ssh.imad.hasura-app.io:2400/submit-comment?comment='+comment, true);
+	req.open('GET', document.URL+'/submit-comment?comment='+comment, true);
 	req.send(null);
 };
 }
