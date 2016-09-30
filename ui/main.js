@@ -15,7 +15,7 @@ btn.onclick = function() {
 		}
 	};
 
-	req.open('GET', document.URL+'/counter', true);
+	req.open('GET', document.URL+'counter', true);
 	req.send(null);
 };
 }
@@ -48,7 +48,7 @@ sbmt_btn.onclick = function () {
 		}
 	};
 	
-	req.open('GET', document.URL+'/submit-comment?comment='+comment, true);
+	req.open('GET', 'http://'+window.location.host+'/submit-comment?comment='+comment, true);
 	req.send(null);
 };
 }
