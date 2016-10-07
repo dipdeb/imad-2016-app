@@ -15,8 +15,7 @@ if (btn != undefined) {
 				}
 			};
 
-			//req.open('GET', '/counter', true);
-			req.open('GET', 'http://'+window.location.host+'/counter', true);
+			req.open('GET', window.location.protocol+'//'+window.location.host+'/counter', true);
 			req.send(null);
 		});
 }
@@ -73,7 +72,7 @@ if (sbmt_btn != undefined) {
 			var el = $(".active").children();
 			var context = el[0].id;
 				
-			req.open('GET', 'http://'+window.location.host+'/submit-comment?context='+context+'&comment='+comment, true);
+			req.open('GET', window.location.protocol+'//'+window.location.host+'/submit-comment?context='+context+'&comment='+comment, true);
 			req.send(null);
 		});
 }
@@ -92,8 +91,7 @@ $( document ).ready(function() {
 		}
 	};
 
-	//req1.open('GET', '/currentctr', true);
-	req1.open('GET', 'http://'+window.location.host+'/currentctr', true);
+	req1.open('GET', window.location.protocol+'//'+window.location.host+'/currentctr', true);
 	req1.send(null);
 
 	var req2 = new XMLHttpRequest();
@@ -145,8 +143,7 @@ $( document ).ready(function() {
 	var el = $(".active").children();
 	var context = el[0].id;
 
-	//req2.open('GET', '/fetchcomments?context='+context, true);
-	req2.open('GET', 'http://'+window.location.host+'/fetchcomments?context='+context, true);
+	req2.open('GET', window.location.protocol+'//'+window.location.host+'/fetchcomments?context='+context, true);
 	req2.send(null);
 
 });
@@ -168,8 +165,7 @@ function showArticle(data) {
 		}
 	};
 
-	//request.open('GET', 'http://localhost:8080/'+data, true);
-	request.open('GET', 'http://'+window.location.host+'/'+data, true);
+	request.open('GET', window.location.protocol+'//'+window.location.host+'/'+data, true);
 	request.send(null);
 
 	var req2 = new XMLHttpRequest();
@@ -215,8 +211,7 @@ function showArticle(data) {
 		}
 	};
 
-	//req2.open('GET', '/fetchcomments?context='+data, true);
-	req2.open('GET', 'http://'+window.location.host+'/fetchcomments?context='+data, true);
+	req2.open('GET', window.location.protocol+'//'+window.location.host+'/fetchcomments?context='+data, true);
 	req2.send(null);
 };
 
