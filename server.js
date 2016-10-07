@@ -6,37 +6,54 @@ var app = express();
 app.use(morgan('combined'));
 
 var articles = {
+	'default': {
+		title: 'Webapp',
+		heading: 'An introduction to Webapp',
+		date: 'Oct 2, 2016',
+		content:
+		  `<p>
+			The general distinction between an interactive web site of any kind and a "web application" is unclear. Web sites most likely to be referred to as "web applications" are those which have similar functionality to a desktop software application, or to a mobile app. HTML5 introduced explicit language support for making applications that are loaded as web pages, but can store data locally and continue to function while offline.
+
+			There are several ways of targeting mobile devices:
+
+			<ul>
+	    		<li>Responsive web design can be used to make a web application - whether a conventional web site or a single-page application viewable on small screens and work well with touchscreens.</li>
+		    	<li>Native apps or "mobile apps" run directly on a mobile device, just as a conventional software application runs directly on a desktop computer, without a web browser (and potentially without the need for Internet connectivity); these are typically written in Java (for Android devices) or Objective C or Swift (for iOS devices). Recently, frameworks like React Native and Flutter have come around, allowing the development of native apps for both platforms using languages other than the standard native languages.</li>
+    			<li>Hybrid apps embed a mobile web site inside a native app, possibly using a hybrid framework like Apache Cordova and Ionic or Appcelerator Titanium. This allows development using web technologies (and possibly directly copying code from an existing mobile web site) while also retaining certain advantages of native apps (e.g. direct access to device hardware, offline operation, app store visibility).</li>
+			</ul>
+		  </p>`
+	}, 
     'article-one': {
-      title: 'Article One | XYZ',
-      heading: 'Article One',
+      title: 'Node.js',
+      heading: 'Introduction to Node.js',
       date: 'Sep 5, 2016',
       content: 
-          '<p>'+
-              'This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article.' + 
-          '</p>' +
-          '<p>' +
-              'This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. ' +
-          '</p>' +
-          '<p>' +
-              'This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. This is the content for my first article. ' +
-          '</p>'
+			`<p>
+				Node.js is an open-source, cross-platform JavaScript runtime environment for developing a diverse variety of tools and applications. Although Node.js is not a JavaScript framework,[3] many of its basic modules are written in JavaScript, and developers can write new modules in JavaScript. The runtime environment interprets JavaScript using Google's V8 JavaScript engine.
+
+				Node.js has an event-driven architecture capable of asynchronous I/O. These design choices aim to optimize throughput and scalability in Web applications with many input/output operations, as well as for real-time Web applications (e.g., real-time communication programs and browser games).
+				The Node.js distributed development project, governed by the Node.js Foundation,[5] is facilitated by the Linux Foundation's Collaborative Projects program.
+			</p>`
+
     },
     'article-two': {
-      title: 'Article Two | XYZ',
-      heading: 'Article Two',
+      title: 'RDBMS',
+      heading: 'Relational Database management system',
       date: 'Sep 10, 2016',
       content: 
-          '<p>' +
-              'This is the content for my second article.' +
-          '</p>'
+          `<p>
+				A relational database management system (RDBMS) is a database management system (DBMS) that is based on the relational model as invented by E. F. Codd, of IBM's San Jose Research Laboratory. In 2016, many of the databases in widespread use are based on the relational database model.
+
+RDBMSs have been a common choice for the storage of information in new databases used for financial records, manufacturing and logistical information, personnel data, and other applications since the 1980s. Relational databases have often replaced legacy hierarchical databases and network databases because they are easier to understand and use. However, relational databases have received unsuccessful challenge attempts by object database management systems in the 1980s and 1990s (which were introduced trying to address the so-called object-relational impedance mismatch between relational databases and object-oriented application programs) and also by XML database management systems in the 1990s. Despite such attempts, RDBMSs keep most of the market share, which has also grown over the years.	
+          </p>`
     },
     'article-three': {
-      title: 'Article Three | XYZ',
-      heading: 'Article Three',
+      title: 'Adminer',
+      heading: 'Adminer',
       date: 'Sep 15, 2016',
       content: 
           `<p>
-              This is the content for my third article.
+              Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP. Conversely to phpMyAdmin, it consist of a single file ready to deploy to the target server. Adminer is available for MySQL, PostgreSQL, SQLite, MS SQL, Oracle, SimpleDB, Elasticsearch and MongoDB.
           </p>`
     }
 };
@@ -48,40 +65,14 @@ function createTemplate (data) {
     var content = data.content;
     
     var htmlTemplate = 
-    `<html>  
-        <head> 
-            <title>  
-                ${title}
-            </title> 
-            <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-            <link href="/ui/style.css" rel="stylesheet" />  
-        </head>  
-        <body> 
-            <div class="container"> 
-                <div> 
-                    <a href="/">Home</a> 
-                </div> 
-                <hr/> 
-                <h3> 
-                    ${heading}
-                </h3> 
-                <div> 
-                    ${date}
-                </div> 
-                <div> 
-                    ${content}
-                </div> 
-			    <div>
-					Enter your comment: <input type="text" id="comment" maxlength="20"></input>
-					<button id="sbmt_btn">Submit</button>
-			    </div>
-			    <div id="box" style="display:none; border: 1px solid #D3D3D3;margin-top: 4px;background-color:#FFFFD4;max-height:150px;width:250px;overflow:auto;">
-			    </div>
-            </div> 
-            <script type="text/javascript" src="/ui/main.js"></script>
-        </body> 
-    </html>`
-    ;
+	`
+		<script>document.title='${title}'</script>
+      <h2>${heading}</h2>
+      <h5><span class="glyphicon glyphicon-time"></span> Post by Urban Legend, ${date}.</h5>
+      <h5><span class="label label-danger">Code</span> <span class="label label-primary">SCM</span></h5><br>
+	  <p>${content}</p>	
+	`
+
     return htmlTemplate;
 }
 
@@ -95,32 +86,56 @@ app.get('/counter', function (req, res) {
    res.send(counter.toString());
 });
 
+app.get('/currentctr', function (req, res) {
+   res.send(counter.toString());
+});
+
 var comments = [];
+
 app.get('/submit-comment', function(req, res) { 
   // Get the name from the request
   var comment = req.query.comment;
-  
-  comments.push(comment);
+  var context = req.query.context;
+	
+  var d = new Date();
+  d.toUTCString();
+
+  var obj = {'comment': comment, 'time': d.toUTCString()};
+
+  if (comments[context] == undefined)
+	comments[context] = [];	
+  comments[context].push(obj);
   // JSON: Javascript Object Notation
-  res.send(JSON.stringify(comments));
+  res.send(JSON.stringify(comments[context]));
+});
+
+app.get('/fetchcomments', function(req, res) {
+  var context = req.query.context;
+  var context = req.query.context;
+	if (comments[context] != undefined)
+	  res.send(JSON.stringify(comments[context]));
+	else {
+	  res.send("null");
+	}
+});
+
+app.get('/favicon.ico', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'favicon.ico'));
 });
 
 app.get('/:articleName', function (req, res) {
   var articleName = req.params.articleName;
-  if (articleName != 'favicon.ico')	
-  res.send(createTemplate(articles[articleName]));
-});
-
-app.get('/ui/style.css', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'style.css'));
+  if (articleName != 'favicon.ico')	{
+	  res.send(createTemplate(articles[articleName]));
+  }	
 });
 
 app.get('/ui/main.js', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'main.js'));
 });
 
-app.get('/ui/madi.png', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
+app.get('/ui/main2.js', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'main2.js'));
 });
 
 var port = 8080; // Use 8080 for local development because you might already have apache running on 80
