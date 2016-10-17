@@ -28,7 +28,7 @@ if (sbmt_btn != undefined) {
 			var comment = commentEl.val();
 	
 			if (comment == '') {
-				$('.alert').show()
+				$('#empty').show()
 				return false;
 			}
 			$('.alert').hide()
@@ -145,6 +145,49 @@ $( document ).ready(function() {
 
 	req2.open('GET', window.location.protocol+'//'+window.location.host+'/fetchcomments?context='+context, true);
 	req2.send(null);
+
+	$(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+	});
+
+	// scroll body to 0px on click
+	$('#back-to-top').click(function () {
+		$('#back-to-top').tooltip('hide');
+		$('body,html').animate({
+			scrollTop: 0
+		}, 800);
+		return false;
+	});
+        
+    $('#back-to-top').tooltip('show');
+
+	var thehours = new Date().getHours();
+	var themessage;
+	var morning = ('Good morning');
+	var afternoon = ('Good afternoon');
+	var evening = ('Good evening');
+
+	if (thehours >= 0 && thehours < 12) {
+		themessage = morning; 
+
+	} else if (thehours >= 12 && thehours < 17) {
+		themessage = afternoon;
+
+	} else if (thehours >= 17 && thehours < 24) {
+		themessage = evening;
+	}
+
+	$('#greeting').html(themessage);
+
+	//$("#success-alert").hide();
+	$("#success-alert").alert();
+	$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+		$("#success-alert").slideUp(500);
+	});   
 
 });
 
