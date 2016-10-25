@@ -148,7 +148,8 @@ app.get('/:articleName', function (req, res) {
   }	
 });
 
-app.get('/articles/:articleName', function (res, req) {
+//app.get('/articles/:articleName', function (res, req) {
+app.get('/:articleName', function (res, req) {
     console.log('======>>> ');
     pool.query("select * from article where title = '" + req.params.articleName + "'", function (err, result) {
         if (err)
