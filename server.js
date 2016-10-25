@@ -182,8 +182,8 @@ app.get('/articles/:articleName', function (req, res) {
             res.send(createTemplate(articleData));
         }
     }
-  });*/
-});
+  });
+});*/
 
 app.get('/ui/main.js', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'main.js'));
