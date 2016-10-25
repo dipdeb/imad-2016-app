@@ -141,12 +141,12 @@ app.get('/favicon.ico', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'favicon.ico'));
 });
 
-app.get('/:articleName', function (req, res) {
+/*app.get('/:articleName', function (req, res) {
   var articleName = req.params.articleName;
   if (articleName != 'favicon.ico')	{
 	  res.send(createTemplate(articles[articleName]));
   }	
-});
+});*/
 
 //app.get('/articles/:articleName', function (res, req) {
 app.get('/:articleName', function (res, req) {
