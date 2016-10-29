@@ -20,6 +20,42 @@ if (btn != undefined) {
 		});
 }
 
+var newart = $('#newart');
+
+if (newart != undefined) {
+		newart.click(function() {
+
+			var req = new XMLHttpRequest();
+
+			req.onreadystatechange = function() {
+				if (req.readyState === XMLHttpRequest.DONE) {
+					if (req.status === 200) {
+						//alert('Successfully created');
+							
+						$('#message').html(req.responseText);
+						$('#message').show();
+
+						$("#message-alert").alert();
+						$("#message-alert").fadeTo(2000, 500).slideUp(500, function(){
+							$("#message-alert").slideUp(500);
+						});   
+					}
+				}
+			};
+
+			var title = $('#title').val();
+			var content = $('#content').val();
+			req.open('GET', window.location.protocol+'//'+window.location.host+'/create_article?title='+title+'&content='+content, true);
+			req.send(null);
+
+			$('#article-form').modal('hide');
+			// Clear the form once successfully submitted
+			$('.modal').on('hidden.bs.modal', function(){
+   				 $(this).find('form')[0].reset();
+			});
+		});
+}
+
 var sbmt_btn = $('#sbmt_btn');
 
 if (sbmt_btn != undefined) {
@@ -208,7 +244,7 @@ function showArticle(data) {
 		}
 	};
 
-	request.open('GET', window.location.protocol+'//'+window.location.host+'/'+data, true);
+	request.open('GET', window.location.protocol+'//'+window.location.host+'/articles/'+data, true);
 	request.send(null);
 
 	var req2 = new XMLHttpRequest();

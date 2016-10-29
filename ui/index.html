@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/ui/dashboard.css">
 	<link rel="SHORTCUT ICON" type="image/ico" href="favicon.ico" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -49,29 +50,63 @@
 </head>
 <body>
 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		<a class="navbar-brand" href="#">BlogLife</a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#" data-toggle="modal" data-target="#article-form">New Article</a></li>
+				<li><a href="#">Settings</a></li>
+				<li class="dropdown">
+		          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile
+        		  <span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+        		    <li><a href="#">Github</a></li>
+		            <li><a href="#">Twitter</a></li>
+        		    <li><a href="#">LinkedIn</a></li> 
+		          </ul>
+        		</li>
+				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
 <div class="container-fluid">
   <div class="row content">
-    <div class="col-sm-3 sidenav">
-      <h4>Dipanjohn's Blog</h4>
+    <div class="col-sm-3 col-md-2 sidebar">
+      <!--h4>Dipanjohn's Blog</h4-->
       <ul class="nav nav-pills nav-stacked" id="nav">
         <li class="active"><a id="default" href="#">Webapp</a></li>
         <li><a id="article-one" href="#">Node.js</a></li>
         <li><a id="article-two" href="#">RDBMS</a></li>
         <li><a id="article-three" href="#">Adminer</a></li>
       </ul><br>
+		<!--button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#article-form">New Article</button-->   		 
       <div class="input-group">
 		Click counter <span id="count">0</span> clicked times.
         <div class="input-group-btn">
-			This button <button id="counter" class="btn btn-primary">Click Me!</button>
+			This button <button id="counter" class="btn btn-primary">Click Me!</button><br>
 		</div>
       </div>
     </div>
 
-    <div class="col-sm-9">
+    <div class="col-sm-6 col-sm-offset-3 col-md-7 col-md-offset-2 main">
 		<div class="alert alert-success" id="success-alert">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		    <strong>Welcome! </strong>
 			<span id="greeting"/>
+		</div>
+		<div class="alert alert-success" id="message-alert" style="display:none;">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<span id="message"/>
 		</div>
 		<div id="viewwindow">	
 			<h2>An introduction to Webapp</h2>
@@ -107,13 +142,73 @@
 	      <div id="comment_section" class="row">
     	  </div>
 	    </div>
+
+	<div class="col-sm-3 col-md-3 blog-sidebar">
+          <div class="sidebar-module">
+            <h4>Archives</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">March 2016</a></li>
+              <li><a href="#">February 2016</a></li>
+              <li><a href="#">January 2016</a></li>
+              <li><a href="#">December 2016</a></li>
+              <li><a href="#">November 2016</a></li>
+              <li><a href="#">October 2016</a></li>
+              <li><a href="#">September 2016</a></li>
+              <li><a href="#">August 2016</a></li>
+              <li><a href="#">July 2016</a></li>
+              <li><a href="#">June 2016</a></li>
+              <li><a href="#">May 2016</a></li>
+              <li><a href="#">April 2016</a></li>
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>Related Articles</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">How to SSH without using a password</a></li>
+              <li><a href="#">Twitter Update</a></li>
+              <li><a href="#">Show visitor count</a></li>
+            </ol>
+          </div>
 	</div>
+   </div><!-- /.blog-sidebar -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="article-form" role="dialog">
+    <div class="modal-dialog">
+   
+	<form> 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Create New Article</h4>
+        </div>
+        <div class="modal-body">
+				<div class="form-group">
+					<label for="title">Title:</label>
+					<input type="text" class="form-control" id="title" placeholder="Enter title">
+				</div>
+				<div class="form-group">
+					<label for="content">Content:</label>
+	          		<textarea class="form-control" id="content" rows="3"></textarea>
+				</div>
+				<button type="button" id="newart" class="btn btn-default">Submit</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+	</form> 
+      
+    </div>
+  </div>
 </div>
 
 <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
-<footer class="container-fluid text-center">
+<!--footer class="container-fluid text-center">
   <p>Created using Bootstrap theme @2016</p>
-</footer>
+</footer-->
 
 <script type="text/javascript" src="/ui/main.js"></script>
 </body>
