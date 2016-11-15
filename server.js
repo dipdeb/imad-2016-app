@@ -286,9 +286,12 @@ app.post('/submit-comment/:articleName', function (req, res) {
     }
 });
 
-var port = 5000; // Use 8080 for local development because you might already have apache running on 80
+//var port = 5000; // Use 8080 for local development because you might already have apache running on 80
+app.set('port', (process.env.PORT || 5000));
 
-app.listen(5000, function () {
+//app.listen(5000, function () {
+app.listen(app.get('port'), function() {
+
 	console.log(`IMAD course app listening on port ${port}!`);
 });
 
