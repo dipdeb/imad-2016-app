@@ -33,13 +33,11 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 30}
 }));
 
-
 function createTemplate (req, data) {
 	var title = data.title;
 	var date = data.date;
 	var heading = data.heading;
 	var content = data.content;
-//console.log('username: ' + data.user_id);
     
 	var htmlTemplate = `
 		<script>document.title='${title}'</script>
@@ -54,61 +52,37 @@ function createTemplate (req, data) {
 	return htmlTemplate;
 }
 
-/*app.get('/ui/style.css', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'style.css'));
-});*/
-
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
 var pool = new Pool(config);
-app.get('/test-db', function(req, res) {
-	pool.query("select * from test", function (err, result) {
-    	if (err)
-			res.status(500).send(err.toString());
-		else    
-			res.send(JSON.stringify(result.rows));
-	});
+var counter;
+
+app.get('/counter', function (req, res) {
+	counter = parseInt(counter) + 1;
+	res.send(counter.toString());
+
+	pool.query('UPDATE visitors SET footfall='+counter, function(err, results){
+        if (err){
+            return(err.toString());
+        } else {
+                console.log("");
+            }
+    });
+
 });
 
-var counter = 0;
-app.get('/counter', function (req, res) {
-	counter = counter + 1;
-	res.send(counter.toString());
+pool.query('SELECT * from visitors', function(err, result){
+	if (err){
+		return(err.toString());
+	} else {
+		counter = result.rows[0].footfall;
+	}
 });
 
 app.get('/currentctr', function (req, res) {
 	res.send(counter.toString());
-});
-
-var comments = [];
-
-/*app.get('/submit-comment', function(req, res) { 
-	// Get the name from the request
-	var comment = req.query.comment;
-	var context = req.query.context;
-	
-	var d = new Date();
-	d.toUTCString();
-
-	var obj = {'comment': comment, 'time': d.toUTCString()};
-
-	if (comments[context] == undefined)
-		comments[context] = [];	
-	comments[context].push(obj);
-	// JSON: Javascript Object Notation
-	res.send(JSON.stringify(comments[context]));
-});*/
-
-app.get('/fetchcomments', function(req, res) {
-	var context = req.query.context;
-  
-	if (comments[context] != undefined)
-		res.send(JSON.stringify(comments[context]));
-	else {
-		res.send("null");
-	}
 });
 
 app.get('/favicon.ico', function (req, res) {
