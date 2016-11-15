@@ -6,17 +6,22 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+const url = require('url')
+
+const params = url.parse(process.env.DATABASE_URL);
+const auth = params.auth.split(':');
+
 var config = {
 	/*user: 'dipdeb',
 	database: 'dipdeb',
 	host: 'db.imad.hasura-app.io',
 	port: '5432',
 	password: process.env.DB_PASSWORD*/
-	user: 'dipanjan',
-	database: 'imad',
-	host: 'localhost',
-	port: '5432',
-	password: 'dipanjan'
+	user: auth[0],
+	password: auth[1],
+	host: params.hostname,
+	port: params.port,
+	database: params.pathname.split('/')[1],
 }
 
 var app = express();

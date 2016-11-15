@@ -5,7 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/ui/avatar.css">
   <link rel="stylesheet" href="/ui/style.css">
+<script type="text/javascript" src="/ui/avatar.js"></script>
 	<link rel="SHORTCUT ICON" type="image/ico" href="favicon.ico" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -63,7 +65,7 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#" data-toggle="modal" data-target="#article-form">New Article</a></li>
+				<li id="new_article" style="display:none;"><a href="#" data-toggle="modal" data-target="#article-modal">New Article</a></li>
 				<li><a href="#">Settings</a></li>
 				<li class="dropdown">
 		          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile
@@ -74,28 +76,40 @@
         		    <li><a href="#">LinkedIn</a></li> 
 		          </ul>
         		</li>
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				<li id="login"><a href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+				<!--li style="display:none" id="logout"><a href="#">Logout</a></li-->
+				<li style="display:none" id="li_logout" class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<!--img src="http://placehold.it/18x18" class="img-circle special-img"> <span id="uname">Username</span> <b class="caret"></b></a-->
+					
+        			<img class="round" width="25" height="25" id="usrimg" avatar="Andy">  &nbsp;<span id="uname">Username</span> <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#"><i class="fa fa-cog"></i> Account</a></li>
+						<li class="divider"></li>
+						<li id="logout"><a href="#">Logout</a></li-->
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
 <div class="container-fluid">
   <div class="row content">
-    <div class="col-sm-3 col-md-2 sidebar">
+    <div class="col-sm-3 col-md-2 sidebar" id="articlelist">
       <!--h4>Dipanjohn's Blog</h4-->
       <ul class="nav nav-pills nav-stacked" id="nav">
-        <li class="active"><a id="default" href="#">Webapp</a></li>
+        <!--li class="active"><a id="default" href="#">Webapp</a></li>
         <li><a id="article-one" href="#">Node.js</a></li>
         <li><a id="article-two" href="#">RDBMS</a></li>
-        <li><a id="article-three" href="#">Adminer</a></li>
+        <li><a id="article-three" href="#">Adminer</a></li-->
       </ul><br>
 		<!--button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#article-form">New Article</button-->   		 
-      <div class="input-group">
+      <!--div class="input-group">
 		Click counter <span id="count">0</span> clicked times.
         <div class="input-group-btn">
 			This button <button id="counter" class="btn btn-primary">Click Me!</button><br>
 		</div>
-      </div>
+      </div-->
     </div>
 
     <div class="col-sm-6 col-sm-offset-3 col-md-7 col-md-offset-2 main">
@@ -109,23 +123,10 @@
 			<span id="message"/>
 		</div>
 		<div id="viewwindow">	
-			<h2>An introduction to Webapp</h2>
-			<h5><span class="glyphicon glyphicon-time"></span> Post by Urban Legend, Oct 2, 2016.</h5>
-			<h5><span class="label label-danger">Code</span> <span class="label label-primary">SCM</span></h5><br>
-			<p>	
-				The general distinction between an interactive web site of any kind and a "web application" is unclear. Web sites most likely to be referred to as "web applications" are those which have similar functionality to a desktop software application, or to a mobile app. HTML5 introduced explicit language support for making applications that are loaded as web pages, but can store data locally and continue to function while offline.
-
-			There are several ways of targeting mobile devices:
-
-				<ul>
-		    		<li>Responsive web design can be used to make a web application - whether a conventional web site or a single-page application viewable on small screens and work well with touchscreens.</li>
-			    	<li>Native apps or "mobile apps" run directly on a mobile device, just as a conventional software application runs directly on a desktop computer, without a web browser (and potentially without the need for Internet connectivity); these are typically written in Java (for Android devices) or Objective C or Swift (for iOS devices). Recently, frameworks like React Native and Flutter have come around, allowing the development of native apps for both platforms using languages other than the standard native languages.</li>
-    				<li>Hybrid apps embed a mobile web site inside a native app, possibly using a hybrid framework like Apache Cordova and Ionic or Appcelerator Titanium. This allows development using web technologies (and possibly directly copying code from an existing mobile web site) while also retaining certain advantages of native apps (e.g. direct access to device hardware, offline operation, app store visibility).</li>
-				</ul>
-			</p>	
-		  </div>
+		</div>
       
 	      <hr>
+		  <div style="display:none;" id="commentbox">
     	  <h4>Leave a Comment:</h4>
 			<div id="empty" class="alert alert-danger" style="display:none;">
 				<a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
@@ -136,7 +137,8 @@
     	    </div>
 			<button class="btn btn-success" id="sbmt_btn">Submit</button><br>
 	      <br><br>
-      
+			</div>
+     
     	  <p><span class="badge" id="total_comments">0</span> Comments:</p><br>
       
 	      <div id="comment_section" class="row">
@@ -174,7 +176,7 @@
 
 
   <!-- Modal -->
-  <div class="modal fade" id="article-form" role="dialog">
+  <div class="modal fade" id="article-modal" role="dialog">
     <div class="modal-dialog">
    
 	<form> 
@@ -203,7 +205,29 @@
       
     </div>
   </div>
+
+	<!-- Login modal -->
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="loginmodal-container">
+				<h1>Login to Your Account</h1>
+				<div style="visibility:hidden;" id="logerr" ></div>
+				<form>
+					<input type="text" name="user" placeholder="Username" id="username">
+					<input type="password" name="pass" placeholder="Password" id="password">
+					<input type="button" name="login" id="login_btn" class="login loginmodal-submit" value="Login">
+					
+				</form>
+					
+				<div class="login-help">
+					<a href="#" id="register">Sign Up</a> <!--  - <a href="#">Forgot Password</a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
+
 
 <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
 <!--footer class="container-fluid text-center">
