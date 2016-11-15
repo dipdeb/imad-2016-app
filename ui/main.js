@@ -412,7 +412,19 @@ function loadComments () {
         					//<img title="${obj[i].username}" class="round" width="50" height="50" avatar="${obj[i].username}">
 					tmp += ` 	
 						<div class="col-sm-1 text-center">
-							<a href="#" title="Dismissible popover" data-toggle="popover" data-trigger="focus" data-content="<div><ul><li>1</li><li>2</li></ul></div>"><img title="${obj[i].username}" class="round" width="50" height="50" avatar="${obj[i].username}"></a>
+							<a href="#" data-toggle="popover" data-trigger="focus" ><img title="${obj[i].username}" class="round" width="50" height="50" avatar="${obj[i].username}"></a>
+							<div style="display:none;" class="container-fluid well span6">
+								<div class="row-fluid">
+									<div class="span2" >
+										<img class="round" width="100" height="100" avatar="${obj[i].username}">
+									</div>
+									<div class="span8">
+										<h6>Email: ${obj[i].username}@xmail.com</h6>
+										<h6>Nation: India</h6>
+										<h6>Old: 1 Year</h6>
+									</div>
+							</div>
+							</div>
 						</div>
 						<div class="col-sm-11">
 						  <h4>${obj[i].username} - <small>${time.toLocaleTimeString()} on ${time.toLocaleDateString()}</small></h4>
@@ -422,7 +434,13 @@ function loadComments () {
 				}
 
 				commentBox.html(tmp);
-			$('[data-toggle="popover"]').popover();
+			$('[data-toggle="popover"]').popover({
+				html: true,
+				content: function() {
+					var user = $(this).next().html();
+					return user;
+				}
+			});
 
             } else {
                 comments.html('Oops! Could not load comments!');
