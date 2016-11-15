@@ -291,8 +291,7 @@ app.set('port', (process.env.PORT || 5000));
 
 //app.listen(5000, function () {
 app.listen(app.get('port'), function() {
-
-	console.log(`IMAD course app listening on port ${port}!`);
+	console.log('Node app is running on port', app.get('port'));
 });
 
 app.get('/ui/:fileName', function (req, res) {
