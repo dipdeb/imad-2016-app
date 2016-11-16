@@ -380,8 +380,8 @@ function loadLoginForm () {
         // Make the request
         var username = $('#username').val();
         var password = $('#password').val();
-        console.log(username);
-        console.log(password);
+/*console.log(username);
+console.log(password);*/
         request.open('POST', '/create-user', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify({username: username, password: password}));  
@@ -482,7 +482,5 @@ function profileCard()
 		<span class="profilecard"></span>
 	`;
 
-console.log(divElem);
-	
 	return divElem;
 }
