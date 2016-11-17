@@ -118,6 +118,8 @@ app.get('/get-articles', function (req, res) {
 app.post('/create_article', function (req, res) {
 	var title = req.body.title;
 	var content = req.body.content;
+	
+	//content = '<p>'+removeTags(content)+'</p>';
 	content = '<p>'+content+'</p>';
 	var userId = req.session.auth.userId;
 	pool.query("insert into article(title, user_id, heading, date, content) values($1, $2, $3, $4, $5)", [title, userId, title, new Date(), content], function (err, result) {
@@ -228,8 +230,9 @@ app.get('/get-comments/:articleName', function (req, res) {
 
 app.post('/submit-comment/:articleName', function (req, res) {
    // Check if the user is logged in
-	var comment = req.query.comment;
-	var article = req.query.context;
+	var comment = req.body.comment;
+
+//	comment = removeTags(comment);
 
     if (req.session && req.session.auth && req.session.auth.userId) {
         // First check if the article exists and get the article-id
@@ -244,7 +247,7 @@ app.post('/submit-comment/:articleName', function (req, res) {
                     // Now insert the right comment for this article
                     pool.query(
                         "INSERT INTO comment (comment, article_id, user_id) VALUES ($1, $2, $3)",
-                        [req.body.comment, articleId, req.session.auth.userId],
+                        [comment, articleId, req.session.auth.userId],
                         function (err, result) {
                             if (err) {
                                 res.status(500).send(err.toString());
@@ -271,3 +274,29 @@ app.listen(app.get('port'), function() {
 app.get('/ui/:fileName', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', req.params.fileName));
 });
+
+
+var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+
+var tagOrComment = new RegExp(
+    '<(?:'
+    // Comment body.
+    + '!--(?:(?:-*[^->])*--+|-?)'
+    // Special "raw text" elements whose content should be elided.
+    + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
+    + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
+    // Regular name
+    + '|/?[a-z]'
+    + tagBody
+    + ')>',
+    'gi');
+
+function removeTags(html) {
+  var oldHtml;
+  do {
+    oldHtml = html;
+console.log(html)
+    html = html.replace(tagOrComment, '');
+  } while (html !== oldHtml);
+  return html.replace(/</g, '&lt;');
+}

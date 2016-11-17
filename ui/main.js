@@ -24,6 +24,7 @@ if (newart) {
 
 			var title = $('#title').val();
 			var content = $('#content').val();
+			content = html_sanitize(content, urlX, idX);
 			req.open('POST', '/create_article', true);
 	        req.setRequestHeader('Content-Type', 'application/json');
     	    req.send(JSON.stringify({title: title, content: content}));
@@ -89,6 +90,8 @@ function commentSubmit() {
 			}
 			$('.alert').hide()
 			commentEl.val('');
+
+			comment = html_sanitize(comment, urlX, idX);
 			
 			var req = new XMLHttpRequest();
 
@@ -282,7 +285,7 @@ function counter () {
     request.onreadystatechange = function () {
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
-				console.log(this.responseText)
+				//console.log(this.responseText)
                 $('#count').html(this.responseText);
             } else {
 				console.log('Error in counter');
