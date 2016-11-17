@@ -264,7 +264,8 @@ app.post('/submit-comment/:articleName', function (req, res) {
 });
 
 //var port = 5000; // Use 8080 for local development because you might already have apache running on 80
-app.set('port', (process.env.PORT || 8080));
+//app.set('port', (process.env.PORT || 8080));
+app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 
 //app.listen(5000, function () {
 app.listen(app.get('port'), function() {
