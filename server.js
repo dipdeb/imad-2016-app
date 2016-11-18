@@ -61,6 +61,7 @@ var counter;
 
 app.get('/counter', function (req, res) {
 	counter = parseInt(counter) + 1;
+console.log('COUNTER >>>> ' + counter);	
 	res.send(counter.toString());
 
 	pool.query('UPDATE visitors SET footfall='+counter, function(err, results){
@@ -75,6 +76,7 @@ app.get('/counter', function (req, res) {
 
 pool.query('SELECT * from visitors', function(err, result){
 	if (err){
+		console.log('COUNTER >>>> ' + err);	
 		return(err.toString());
 	} else {
 		counter = result.rows[0].footfall;
