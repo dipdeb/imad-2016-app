@@ -259,7 +259,7 @@ function loadArticleList () {
 					});
 				});
             } else {
-                articles.innerHTML('Oops! Could not load all articles!')
+                articles.html('Oops! Could not load all articles!')
             }
         }
     };
@@ -446,7 +446,7 @@ function loadComments () {
 			});
 
             } else {
-                comments.html('Oops! Could not load comments!');
+                commentBox.html('Oops! Could not load comments!');
             }
         }
     };
