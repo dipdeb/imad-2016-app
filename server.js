@@ -12,17 +12,17 @@ const params = url.parse(process.env.DATABASE_URL);
 const auth = params.auth.split(':');
 
 var config = {
-	/*user: 'dipdeb',
+	user: 'dipdeb',
 	database: 'dipdeb',
 	host: 'db.imad.hasura-app.io',
 	port: '5432',
-	password: process.env.DB_PASSWORD*/
-	user: auth[0],
+	password: process.env.DB_PASSWORD
+	/*user: auth[0],
 	password: auth[1],
 	host: params.hostname,
 	port: params.port,
 	database: params.pathname.split('/')[1],
-	ssl: true 
+	ssl: true */
 }
 
 var app = express();
