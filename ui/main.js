@@ -23,12 +23,12 @@ if (newart) {
 			};
 
 			var title = $('#title').val();
+			title = html_sanitize(title, urlX, idX);
 			var content = $('#content').val();
 			content = html_sanitize(content, urlX, idX);
 			req.open('POST', '/create_article', true);
 	        req.setRequestHeader('Content-Type', 'application/json');
     	    req.send(JSON.stringify({title: title, content: content}));
-
 
 			$('#article-modal').modal('hide');
 			// Clear the form once successfully submitted
