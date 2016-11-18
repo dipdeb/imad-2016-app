@@ -26,10 +26,10 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
--- Name: article_id_seq; Type: SEQUENCE; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: n_article_id_seq; Type: SEQUENCE; Schema: public; Owner: dipdeb
 --
 
-CREATE SEQUENCE article_id_seq
+CREATE SEQUENCE n_article_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -37,18 +37,18 @@ CREATE SEQUENCE article_id_seq
     CACHE 1;
 
 
-ALTER TABLE article_id_seq OWNER TO dhfsrnjwqkhhoq;
+ALTER TABLE n_article_id_seq OWNER TO dipdeb;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: article; Type: TABLE; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
+-- Name: n_article; Type: TABLE; Schema: public; Owner: dipdeb; Tablespace: 
 --
 
-CREATE TABLE article (
-    id integer DEFAULT nextval('article_id_seq'::regclass) NOT NULL,
+CREATE TABLE n_article (
+    id integer DEFAULT nextval('n_article_id_seq'::regclass) NOT NULL,
     user_id integer NOT NULL,
     title text NOT NULL,
     heading text NOT NULL,
@@ -57,10 +57,10 @@ CREATE TABLE article (
 );
 
 
-ALTER TABLE article OWNER TO dhfsrnjwqkhhoq;
+ALTER TABLE n_article OWNER TO dipdeb;
 
 --
--- Name: comment_id_seq; Type: SEQUENCE; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: comment_id_seq; Type: SEQUENCE; Schema: public; Owner: dipdeb
 --
 
 CREATE SEQUENCE comment_id_seq
@@ -71,25 +71,25 @@ CREATE SEQUENCE comment_id_seq
     CACHE 1;
 
 
-ALTER TABLE comment_id_seq OWNER TO dhfsrnjwqkhhoq;
+ALTER TABLE comment_id_seq OWNER TO dipdeb;
 
 --
--- Name: comment; Type: TABLE; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
+-- Name: comment; Type: TABLE; Schema: public; Owner: dipdeb; Tablespace: 
 --
 
 CREATE TABLE comment (
     id integer DEFAULT nextval('comment_id_seq'::regclass) NOT NULL,
-    article_id integer NOT NULL,
+    n_article_id integer NOT NULL,
     user_id integer NOT NULL,
     comment text NOT NULL,
     "timestamp" timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
-ALTER TABLE comment OWNER TO dhfsrnjwqkhhoq;
+ALTER TABLE comment OWNER TO dipdeb;
 
 --
--- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: dipdeb
 --
 
 CREATE SEQUENCE user_id_seq
@@ -100,10 +100,10 @@ CREATE SEQUENCE user_id_seq
     CACHE 1;
 
 
-ALTER TABLE user_id_seq OWNER TO dhfsrnjwqkhhoq;
+ALTER TABLE user_id_seq OWNER TO dipdeb;
 
 --
--- Name: user; Type: TABLE; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
+-- Name: user; Type: TABLE; Schema: public; Owner: dipdeb; Tablespace: 
 --
 
 CREATE TABLE "user" (
@@ -113,13 +113,20 @@ CREATE TABLE "user" (
 );
 
 
-ALTER TABLE "user" OWNER TO dhfsrnjwqkhhoq;
+ALTER TABLE "user" OWNER TO dipdeb;
+
+
+CREATE TABLE visitors (
+	footfall bigint
+);
+
+ALTER TABLE visitors OWNER TO dipdeb;
 
 --
--- Data for Name: article; Type: TABLE DATA; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Data for Name: n_article; Type: TABLE DATA; Schema: public; Owner: dipdeb
 --
 
-COPY article (id, user_id, title, heading, date, content) FROM stdin;
+COPY n_article (id, user_id, title, heading, date, content) FROM stdin;
 2	1	Nodejs	Introduction to Node.js	2016-11-07	<p>\r\n                Node.js is an open-source, cross-platform JavaScript runtime environment for developing a diverse variety of tools and applications. Although Node.js is not a JavaScript framework,[3] many of its basic modules are written in JavaScript, and developers can write new modules in JavaScript. The runtime environment interprets JavaScript using Google's V8 JavaScript engine.\r\n\r\n                Node.js has an event-driven architecture capable of asynchronous I/O. These design choices aim to optimize throughput and scalability in Web applications with many input/output operations, as well as for real-time Web applications (e.g., real-time communication programs and browser games).\r\n                The Node.js distributed development project, governed by the Node.js Foundation,[5] is facilitated by the Linux Foundation's Collaborative Projects program.\r\n            </p>
 3	1	RDBMS	Relational Database management system	2016-11-07	<p>\r\n                A relational database management system (RDBMS) is a database management system (DBMS) that is based on the relational model as invented by E. F. Codd, of IBM's San Jose Research Laboratory. In 2016, many of the databases in widespread use are based on the relational database model.\r\n\r\nRDBMSs have been a common choice for the storage of information in new databases used for financial records, manufacturing and logistical information, personnel data, and other applications since the 1980s. Relational databases have often replaced legacy hierarchical databases and network databases because they are easier to understand and use. However, relational databases have received unsuccessful challenge attempts by object database management systems in the 1980s and 1990s (which were introduced trying to address the so-called object-relational impedance mismatch between relational databases and object-oriented application programs) and also by XML database management systems in the 1990s. Despite such attempts, RDBMSs keep most of the market share, which has also grown over the years.\r\n          </p>
 4	1	Adminer	Adminer	2016-11-07	<p>\r\n              Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP. Conversely to phpMyAdmin, it consist of a single file ready to deploy to the target server. Adminer is available for MySQL, PostgreSQL, SQLite, MS SQL, Oracle, SimpleDB, Elasticsearch and MongoDB.\r\n          </p>
@@ -131,61 +138,65 @@ COPY article (id, user_id, title, heading, date, content) FROM stdin;
 
 
 --
--- Name: article_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: n_article_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dipdeb
 --
 
-SELECT pg_catalog.setval('article_id_seq', 7, true);
+SELECT pg_catalog.setval('n_article_id_seq', 7, true);
 
 
 --
--- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: dipdeb
 --
 
-COPY comment (id, article_id, user_id, comment, "timestamp") FROM stdin;
+COPY comment (id, n_article_id, user_id, comment, "timestamp") FROM stdin;
 \.
 
 
 --
--- Name: comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dipdeb
 --
 
 SELECT pg_catalog.setval('comment_id_seq', 1, false);
 
 
 --
--- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: dipdeb
 --
 
 COPY "user" (id, username, password) FROM stdin;
-1	dhfsrnjwqkhhoq	pbkdf2$10000$6b15f4c84aaae53c494016ac0f1222fe6acaed516c9e865adb590464a6c3fa9d3935538b691fe420fb79fde8a6bcadb1500264e754f8a4eaa7fe0dee5f2e104f03d909ffaad4fc3aa84a6f9f3e5ba27daf637689fda4092755d1bda086725e8e9ebb16aade206ae2a8ded262782e19c4ae793f0140889ed823d673ee93471ee6$74447cbb69e6f6605fed7be8d6156b6e42aff7f81479140dc8c56068fbb17f9c0999bb5c18e9e83c4b5217a0bc83049a542f5424103aa1b0124857c26e472dbfaf90f84da980cea766054751e861bffb808d9513151ae6887bb31b5b621488bfabea7fe915f2512120bdb791cbdcc13defe0482533489a0e739558ef3ae2e857e9ae7e7fa2a5794215e83eb1a4d6d4cae8e31a6abe5f3f4b654ee813d42bfad4b69beb191fa7329dae9f038e91be5773555a343d91d33dd881eeda7ca356a97506e993a2d422cb95e253824ba182fe1fecd25e6136a2f4431a75e43308f48d79e879885b06ccfeab0842421825a60be609e3789f408564f156aca38d07843b3a22b2e38aeacbb946daf390777806cd54405ede54c61a4ada0b61e197838e470238aa074dc2a7760cd9357542a01525aa7325a228a214613d43519a4d47f8b48ff4775d8abf29ee92ccb3302b8429772496195640da1f4b404ca4cb3179d7c1c793e82e8fd6130d396b55f0c0e83e006b149d82eebeaa29bf6db9fa5da21c41fec8c154ebc01513ba9236fccaf09b82cfd40c38ab79912c831f267844c8b2c364cabd6c9572b266195467eaeae876cf97906eaacb052ac51f729ae3098673f3e17f5242562f96955315f7032edaa3ea3831894292ef95e60ac2acdf817f2eab351994549a0780aebda5da2f3ae0d2b1d1ce23d72cc78e2821f2eae6efc3281442
+1	dipdeb	pbkdf2$10000$6b15f4c84aaae53c494016ac0f1222fe6acaed516c9e865adb590464a6c3fa9d3935538b691fe420fb79fde8a6bcadb1500264e754f8a4eaa7fe0dee5f2e104f03d909ffaad4fc3aa84a6f9f3e5ba27daf637689fda4092755d1bda086725e8e9ebb16aade206ae2a8ded262782e19c4ae793f0140889ed823d673ee93471ee6$74447cbb69e6f6605fed7be8d6156b6e42aff7f81479140dc8c56068fbb17f9c0999bb5c18e9e83c4b5217a0bc83049a542f5424103aa1b0124857c26e472dbfaf90f84da980cea766054751e861bffb808d9513151ae6887bb31b5b621488bfabea7fe915f2512120bdb791cbdcc13defe0482533489a0e739558ef3ae2e857e9ae7e7fa2a5794215e83eb1a4d6d4cae8e31a6abe5f3f4b654ee813d42bfad4b69beb191fa7329dae9f038e91be5773555a343d91d33dd881eeda7ca356a97506e993a2d422cb95e253824ba182fe1fecd25e6136a2f4431a75e43308f48d79e879885b06ccfeab0842421825a60be609e3789f408564f156aca38d07843b3a22b2e38aeacbb946daf390777806cd54405ede54c61a4ada0b61e197838e470238aa074dc2a7760cd9357542a01525aa7325a228a214613d43519a4d47f8b48ff4775d8abf29ee92ccb3302b8429772496195640da1f4b404ca4cb3179d7c1c793e82e8fd6130d396b55f0c0e83e006b149d82eebeaa29bf6db9fa5da21c41fec8c154ebc01513ba9236fccaf09b82cfd40c38ab79912c831f267844c8b2c364cabd6c9572b266195467eaeae876cf97906eaacb052ac51f729ae3098673f3e17f5242562f96955315f7032edaa3ea3831894292ef95e60ac2acdf817f2eab351994549a0780aebda5da2f3ae0d2b1d1ce23d72cc78e2821f2eae6efc3281442
 \.
 
 
+COPY visitors (footfall) FROM stdin;
+0
+\.
+
 --
--- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dipdeb
 --
 
 SELECT pg_catalog.setval('user_id_seq', 1, true);
 
 
 --
--- Name: article_id; Type: CONSTRAINT; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
+-- Name: n_article_id; Type: CONSTRAINT; Schema: public; Owner: dipdeb; Tablespace: 
 --
 
-ALTER TABLE ONLY article
-    ADD CONSTRAINT article_id PRIMARY KEY (id);
-
-
---
--- Name: article_title; Type: CONSTRAINT; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
---
-
-ALTER TABLE ONLY article
-    ADD CONSTRAINT article_title UNIQUE (title);
+ALTER TABLE ONLY n_article
+    ADD CONSTRAINT n_article_id PRIMARY KEY (id);
 
 
 --
--- Name: comment_id; Type: CONSTRAINT; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
+-- Name: n_article_title; Type: CONSTRAINT; Schema: public; Owner: dipdeb; Tablespace: 
+--
+
+ALTER TABLE ONLY n_article
+    ADD CONSTRAINT n_article_title UNIQUE (title);
+
+
+--
+-- Name: comment_id; Type: CONSTRAINT; Schema: public; Owner: dipdeb; Tablespace: 
 --
 
 ALTER TABLE ONLY comment
@@ -193,7 +204,7 @@ ALTER TABLE ONLY comment
 
 
 --
--- Name: user_id; Type: CONSTRAINT; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
+-- Name: user_id; Type: CONSTRAINT; Schema: public; Owner: dipdeb; Tablespace: 
 --
 
 ALTER TABLE ONLY "user"
@@ -201,7 +212,7 @@ ALTER TABLE ONLY "user"
 
 
 --
--- Name: user_username; Type: CONSTRAINT; Schema: public; Owner: dhfsrnjwqkhhoq; Tablespace: 
+-- Name: user_username; Type: CONSTRAINT; Schema: public; Owner: dipdeb; Tablespace: 
 --
 
 ALTER TABLE ONLY "user"
@@ -209,15 +220,15 @@ ALTER TABLE ONLY "user"
 
 
 --
--- Name: article_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: n_article_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dipdeb
 --
 
-ALTER TABLE ONLY article
-    ADD CONSTRAINT article_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
+ALTER TABLE ONLY n_article
+    ADD CONSTRAINT n_article_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
 
 
 --
--- Name: comment_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dhfsrnjwqkhhoq
+-- Name: comment_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dipdeb
 --
 
 ALTER TABLE ONLY comment
@@ -225,12 +236,12 @@ ALTER TABLE ONLY comment
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: dhfsrnjwqkhhoq
+-- Name: public; Type: ACL; Schema: -; Owner: dipdeb
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM dhfsrnjwqkhhoq;
-GRANT ALL ON SCHEMA public TO dhfsrnjwqkhhoq;
+REVOKE ALL ON SCHEMA public FROM dipdeb;
+GRANT ALL ON SCHEMA public TO dipdeb;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 

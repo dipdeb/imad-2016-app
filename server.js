@@ -91,7 +91,7 @@ app.get('/favicon.ico', function (req, res) {
 
 app.get('/articles/:articleName', function (req, res) {
 
-	pool.query('select * from article a, "user" u where title = $1 and a.user_id = u.id', [req.params.articleName], function (err, result) {
+	pool.query('select * from n_article a, "user" u where title = $1 and a.user_id = u.id', [req.params.articleName], function (err, result) {
 		if (err)
 			res.status(500).send(err.toString());
 		else {
@@ -106,7 +106,7 @@ app.get('/articles/:articleName', function (req, res) {
 });
 
 app.get('/get-articles', function (req, res) {
-	pool.query('SELECT * FROM article a, "user" u where a.user_id = u.id ORDER BY date DESC', function (err, result) {
+	pool.query('SELECT * FROM n_article a, "user" u where a.user_id = u.id ORDER BY date DESC', function (err, result) {
 		if (err) {
 			res.status(500).send(err.toString());
 		} else {
@@ -122,7 +122,7 @@ app.post('/create_article', function (req, res) {
 	//content = '<p>'+removeTags(content)+'</p>';
 	content = '<p>'+content+'</p>';
 	var userId = req.session.auth.userId;
-	pool.query("insert into article(title, user_id, heading, date, content) values($1, $2, $3, $4, $5)", [title, userId, title, new Date(), content], function (err, result) {
+	pool.query("insert into n_article(title, user_id, heading, date, content) values($1, $2, $3, $4, $5)", [title, userId, title, new Date(), content], function (err, result) {
 		if (err)
 			res.status(500).send(err.toString());
 		else {
@@ -236,7 +236,7 @@ app.post('/submit-comment/:articleName', function (req, res) {
 
     if (req.session && req.session.auth && req.session.auth.userId) {
         // First check if the article exists and get the article-id
-        pool.query('SELECT * from article where title = $1', [req.params.articleName], function (err, result) {
+        pool.query('SELECT * from n_article where title = $1', [req.params.articleName], function (err, result) {
             if (err) {
                 res.status(500).send(err.toString());
             } else {
