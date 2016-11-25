@@ -6,10 +6,10 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-const url = require('url')
+/*const url = require('url')
 
 const params = url.parse(process.env.DATABASE_URL);
-const auth = params.auth.split(':');
+const auth = params.auth.split(':');*/
 
 var config = {
 	/*user: 'dipdeb',
@@ -17,12 +17,26 @@ var config = {
 	host: 'db.imad.hasura-app.io',
 	port: '5432',
 	password: process.env.DB_PASSWORD*/
-	user: auth[0],
+	/*user: auth[0],
 	password: auth[1],
 	host: params.hostname,
 	port: params.port,
 	database: params.pathname.split('/')[1],
-	ssl: true 
+	ssl: true */
+	dev: {
+		user: 'dipanjan',
+		database: 'imad',
+		port: 5432,
+		host: 'localhost',
+		password: 'dipanjan'
+	},
+	prod: {
+		user: 'dipdeb',
+		database: 'dipdeb',
+		host: 'db.imad.hasura-app.io',
+		port: '5432',
+		password: process.env.DB_PASSWORD
+	}
 }
 
 var app = express();
@@ -30,7 +44,9 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(session({
     secret: 'someRandomSecretValue',
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30}
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30},
+	resave: true,
+    saveUninitialized: true
 }));
 
 function createTemplate (req, data) {
@@ -56,12 +72,11 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-var pool = new Pool(config);
+var pool = new Pool(config.dev);
 var counter;
 
 app.get('/counter', function (req, res) {
 	counter = parseInt(counter) + 1;
-console.log('COUNTER >>>> ' + counter);	
 	res.send(counter.toString());
 
 	pool.query('UPDATE visitors SET footfall='+counter, function(err, results){
@@ -76,7 +91,6 @@ console.log('COUNTER >>>> ' + counter);
 
 pool.query('SELECT * from visitors', function(err, result){
 	if (err){
-		console.log('COUNTER >>>> ' + err);	
 		return(err.toString());
 	} else {
 		counter = result.rows[0].footfall;
@@ -112,12 +126,12 @@ app.get('/get-articles', function (req, res) {
 		if (err) {
 			res.status(500).send(err.toString());
 		} else {
-			res.send(JSON.stringify(result.rows));
+			res.send(JSON.stringify({result: result.rows, user: 'logged'}));
 		}
 	});
 });
 
-app.post('/create_article', function (req, res) {
+app.post('/create-article', function (req, res) {
 	var title = req.body.title;
 	var content = req.body.content;
 	
@@ -145,8 +159,8 @@ app.get('/hash/:input', function(req, res) {
 });
 
 app.post('/create-user', function (req, res) {
-   var username = req.body.username;
-   var password = req.body.password;
+   var username = req.body.new_user;
+   var password = req.body.new_pass;
    var salt = crypto.randomBytes(128).toString('hex');
    var dbString = hash(password, salt);
 
@@ -298,7 +312,6 @@ function removeTags(html) {
   var oldHtml;
   do {
     oldHtml = html;
-console.log(html)
     html = html.replace(tagOrComment, '');
   } while (html !== oldHtml);
   return html.replace(/</g, '&lt;');

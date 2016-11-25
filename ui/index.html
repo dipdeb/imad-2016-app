@@ -48,6 +48,7 @@
     	right: 20px;
 	    display:none;
 	}
+	.popover { width: 250px ! important; }
   </style>
 </head>
 <body>
@@ -160,7 +161,7 @@
               <li><a href="#">July 2016</a></li>
               <li><a href="#">June 2016</a></li>
               <li><a href="#">May 2016</a></li>
-              <li><a href="#">April 2016</a></li>
+              <li><a href="/ui/test.html">April 2016</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
@@ -207,7 +208,7 @@
   </div>
 
 	<!-- Login modal -->
-	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<!--div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 		<div class="modal-dialog">
 			<div class="loginmodal-container">
 				<h1>Login to Your Account</h1>
@@ -220,11 +221,100 @@
 				</form>
 					
 				<div class="login-help">
-					<a href="#" id="register">Sign Up</a> <!--  - <a href="#">Forgot Password</a> -->
+					<a href="#" id="register">Sign Up</a> 
 				</div>
 			</div>
 		</div>
-	</div>
+	</div-->
+<div class="modal fade bs-modal-sm" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <br>
+        <div class="bs-example bs-example-tabs">
+            <ul id="myTab" class="nav nav-tabs">
+              <li class="active"><a href="#signin" data-toggle="tab">Sign In</a></li>
+              <li class=""><a href="#signup" data-toggle="tab">Register</a></li>
+            </ul>
+        </div>
+      <div class="modal-body">
+        <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="signin">
+            <fieldset>
+            <!-- Sign In Form -->
+            <!-- Text input-->
+            <div class="control-group">
+              <label class="control-label" for="userid">Username:</label>
+              <div class="controls">
+                <input required="" id="username" name="user" type="text" class="form-control" placeholder="Username" class="input-medium" required="">
+              </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="control-group">
+              <label class="control-label" for="passwordinput">Password:</label>
+              <div class="controls">
+                <input required="" id="password" name="pass" class="form-control" type="password" placeholder="********" class="input-medium">
+              </div>
+            </div>
+			<div style="visibility:hidden;" id="logerr1" ></div>
+
+            <!-- Button -->
+            <div class="control-group">
+              <label class="control-label" for="signin"></label>
+              <div class="controls">
+                <button id="login_btn" name="signin" class="btn btn-success">Sign In</button>
+              </div>
+            </div>
+            </fieldset>
+        </div>
+        <div class="tab-pane fade" id="signup">
+            <fieldset>
+            <!-- Sign Up Form -->
+            <!-- Text input-->
+            <div class="control-group">
+              <label class="control-label" for="user">Username:</label>
+              <div class="controls">
+                <input id="new_user" name="new_user" class="form-control" type="text" placeholder="Username" class="input-large" required="">
+              </div>
+            </div>
+            
+            <!-- Password input-->
+            <div class="control-group">
+              <label class="control-label" for="password">Password:</label>
+              <div class="controls">
+                <input id="new_pass" name="new_pass" class="form-control" type="password" placeholder="********" class="input-large" required="">
+                <em>1-8 Characters</em>
+              </div>
+            </div>
+			<div style="visibility:hidden;" id="logerr2" ></div>
+            
+            <!-- Text input-->
+            <!--div class="control-group">
+              <label class="control-label" for="reenterpassword">Re-Enter Password:</label>
+              <div class="controls">
+                <input id="reenterpassword" class="form-control" name="reenterpassword" type="password" placeholder="********" class="input-large" required="">
+              </div>
+            </div-->
+            
+            <!-- Button -->
+            <div class="control-group">
+              <label class="control-label" for="confirmsignup"></label>
+              <div class="controls">
+                <button id="register" name="confirmsignup" class="btn btn-success">Sign Up</button>
+              </div>
+            </div>
+            </fieldset>
+      </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+      <center>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>
 

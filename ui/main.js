@@ -1,4 +1,5 @@
 var newart = $('#newart');
+var firstArticleUser = '';
 
 if (newart) {
 		newart.click(function() {
@@ -25,7 +26,7 @@ if (newart) {
 			var title = $('#title').val();
 			var content = $('#content').val();
 			content = html_sanitize(content, urlX, idX);
-			req.open('POST', '/create_article', true);
+			req.open('POST', '/create-article', true);
 	        req.setRequestHeader('Content-Type', 'application/json');
     	    req.send(JSON.stringify({title: title, content: content}));
 
@@ -147,8 +148,9 @@ $( document ).ready(function() {
 
 	// Clear the form once successfully submitted
 	$('.modal').on('hidden.bs.modal', function(){
-		$('#logerr').css('visibility', 'hidden');
-		$('#login_btn').val('Login');
+		$('#logerr1').css('visibility', 'hidden');
+		$('#logerr2').css('visibility', 'hidden');
+		//$('#login_btn').val('Login');
 	});
 
 	loadLogin();
@@ -218,7 +220,9 @@ function loadArticleList () {
         if (request.readyState === XMLHttpRequest.DONE) {
             var articles = $('#nav');
             if (request.status === 200) {
-                var articleData = JSON.parse(this.responseText);
+                var response = JSON.parse(this.responseText);
+				var articleData = response.result;
+console.log()
 				var recentId = 0;
 				var content = '';
                 for (var i=0; i< articleData.length; i++) {
@@ -237,6 +241,7 @@ function loadArticleList () {
 				var viewElem = $('#viewwindow');
 
 				var artdate = new Date(`${articleData[0].date}`);
+				firstArticleUser = articleData[0].username;
 
 				var defaultArticle = `
 						<h2>${articleData[0].heading}</h2>
@@ -273,7 +278,10 @@ function loadLoggedInUser (username) {
 	$('#li_logout').show();
 	$('#new_article').show();
 	$('#commentbox').show();
-	$('#editperm').show();
+
+	// Show edit-delete only when the user who created it has logged
+	if (firstArticleUser === username)
+		$('#editperm').show();
 
 	$('#login-modal').modal('hide');
 	$('#uname').html(username);
@@ -319,6 +327,16 @@ function loadLoginForm () {
 
     var submit = $('#login_btn');
     submit.click(function () {
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+		if (username == '' || password == '') {
+			$('#logerr1').html("Username/Password can't be left empty.");
+			$('#logerr1').css('visibility', 'visible');
+			$('#logerr1').css('color', 'red');
+
+			return;
+		}
         // Create a request object
         var request = new XMLHttpRequest();
         
@@ -327,24 +345,34 @@ function loadLoginForm () {
           if (request.readyState === XMLHttpRequest.DONE) {
               // Take some action
               if (request.status === 200) {
-                  submit.val('Sucess!');
+					$('#message').html('Logged in.');
+					$('#message').show();
+
+					$("#message-alert").alert();
+					$("#message-alert").fadeTo(2000, 500).slideUp(500, function(){
+						$("#message-alert").slideUp(500);
+					});   
+					$('#login-modal').modal('hide');
+					$('#logerr1').css('visibility', 'hidden');
+                  
               } else if (request.status === 403) {
-                  submit.val('Invalid credentials. Try again?');
+				$('#logerr1').html('Invalid credentials. Try again?');
+				$('#logerr1').css('visibility', 'visible');
+				$('#logerr1').css('color', 'red');
               } else if (request.status === 500) {
-                  alert('Something went wrong on the server');
-                  submit.val('Login');
+				$('#logerr1').html('Something went wrong on the server');
+				$('#logerr1').css('visibility', 'visible');
+				$('#logerr1').css('color', 'red');
               } else {
-                  alert('Something went wrong on the server');
-                  submit.val('Login');
+				$('#logerr1').html('Something went wrong on the server');
+				$('#logerr1').css('visibility', 'visible');
+				$('#logerr1').css('color', 'red');
               }
               loadLogin();
           }  
         };
         
         // Make the request
-        var username = $('#username').val();
-        var password = $('#password').val();
-
         request.open('POST', '/login', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify({username: username, password: password}));  
@@ -353,6 +381,16 @@ function loadLoginForm () {
     
     var register = $('#register');
     register.click(function () {
+        var username = $('#new_user').val();
+        var password = $('#new_pass').val();
+
+		if (username == '' || password == '') {
+			$('#logerr2').html("Username/Password can't be left empty.");
+			$('#logerr2').css('visibility', 'visible');
+			$('#logerr2').css('color', 'red');
+			
+			return;
+		}
         // Create a request object
         var request = new XMLHttpRequest();
         
@@ -369,27 +407,23 @@ function loadLoginForm () {
 						$("#message-alert").slideUp(500);
 					});   
 					$('#login-modal').modal('hide');
-					$('#logerr').css('visibility', 'hidden');
+					$('#logerr2').css('visibility', 'hidden');
 
               } else {
-					register.value = 'Register';
-					$('#logerr').html('Could not sign up the user');
-					$('#logerr').css('visibility', 'visible');
-					$('#logerr').css('color', 'red');
+					//register.value = 'Register';
+					console.log(this.responseText);
+					$('#logerr2').html('Could not sign up the user');
+					$('#logerr2').css('visibility', 'visible');
+					$('#logerr2').css('color', 'red');
               }
           }
         };
         
         // Make the request
-        var username = $('#username').val();
-        var password = $('#password').val();
-/*console.log(username);
-console.log(password);*/
         request.open('POST', '/create-user', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify({username: username, password: password}));  
         register.value = 'Registering...';
-    
     });
 }
 
@@ -424,9 +458,10 @@ function loadComments () {
 									<div class="span8">
 										<h6>Email: ${obj[i].username}@xmail.com</h6>
 										<h6>Nation: India</h6>
-										<h6>Old: 1 Year</h6>
+										<h6>Score: 89</h6>
+										<h6>Member since: 1 Year</h6>
 									</div>
-							</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-sm-11">
@@ -437,6 +472,21 @@ function loadComments () {
 				}
 
 				commentBox.html(tmp);
+				
+				var test = `<div style="" class="container-fluid well span6">
+								<div class="row-fluid">
+									<div class="span2" >
+										<img class="round" width="100" height="100" avatar="kaka">
+									</div>
+									<div class="span8">
+										<h6>Email: </h6>
+										<h6>Nation: India</h6>
+										<h6>Score: 89</h6>
+										<h6>Member since: 1 Year</h6>
+									</div>
+								</div>
+							</div>`;
+				
 			$('[data-toggle="popover"]').popover({
 				html: true,
 				content: function() {
