@@ -12,22 +12,13 @@ const params = url.parse(process.env.DATABASE_URL);
 const auth = params.auth.split(':');*/
 
 var config = {
-	user: 'dipdeb',
-	database: 'dipdeb',
-	host: 'db.imad.hasura-app.io',
-	port: '5432',
-<<<<<<< HEAD
-	password: process.env.DB_PASSWORD*/
-=======
-	password: process.env.DB_PASSWORD
->>>>>>> 6b38adedb98404631193c9f82ae1dd6258ff3d3d
 	/*user: auth[0],
 	password: auth[1],
 	host: params.hostname,
 	port: params.port,
 	database: params.pathname.split('/')[1],
 	ssl: true */
-<<<<<<< HEAD
+
 	dev: {
 		user: 'dipanjan',
 		database: 'imad',
@@ -42,8 +33,6 @@ var config = {
 		port: '5432',
 		password: process.env.DB_PASSWORD
 	}
-=======
->>>>>>> 6b38adedb98404631193c9f82ae1dd6258ff3d3d
 }
 
 var app = express();
