@@ -68,7 +68,7 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-var pool = new Pool(config.dev);
+var pool = new Pool(config.prod);
 var counter;
 
 app.get('/counter', function (req, res) {
