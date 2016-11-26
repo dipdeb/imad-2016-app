@@ -68,7 +68,8 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-var pool = new Pool(config.dev);
+var pool = new Pool(config.prod);
+//var pool = new Pool(config.dev);
 var counter;
 
 app.get('/counter', function (req, res) {
@@ -117,6 +118,10 @@ app.get('/articles/:articleName', function (req, res) {
 	});
 });
 
+app.get('/test/:category/:title', function(req, res) {
+	res.send("Category: " + req.params.category + " title: " + req.params.title);
+});
+
 app.get('/get-articles', function (req, res) {
 	pool.query('SELECT * FROM n_article a, "user" u where a.user_id = u.id ORDER BY date DESC', function (err, result) {
 		if (err) {
@@ -155,11 +160,14 @@ app.get('/hash/:input', function(req, res) {
 });
 
 app.post('/create-user', function (req, res) {
-   var username = req.body.new_user;
-   var password = req.body.new_pass;
+   var username = req.body.username;
+   var password = req.body.password;
+
+console.log('u: ' + username + ' pass: ' + password);
    var salt = crypto.randomBytes(128).toString('hex');
    var dbString = hash(password, salt);
 
+console.log('INSERT INTO "user" (username, password) VALUES');
    pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function (err, result) {
       if (err) {
           res.status(500).send(err.toString());
