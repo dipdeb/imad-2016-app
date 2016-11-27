@@ -330,7 +330,7 @@ function loadLoginForm () {
         var username = $('#username').val();
         var password = $('#password').val();
 
-		if (username == '' || password == '') {
+		if (username.trim() == '' || password.trim() == '') {
 			$('#logerr1').html("Username/Password can't be left empty.");
 			$('#logerr1').css('visibility', 'visible');
 			$('#logerr1').css('color', 'red');
@@ -384,7 +384,7 @@ function loadLoginForm () {
         var username = $('#new_user').val();
         var password = $('#new_pass').val();
 
-		if (username == '' || password == '') {
+		if (username.trim() == '' || password.trim() == '') {
 			$('#logerr2').html("Username/Password can't be left empty.");
 			$('#logerr2').css('visibility', 'visible');
 			$('#logerr2').css('color', 'red');
