@@ -163,11 +163,15 @@ app.post('/create-user', function (req, res) {
    var username = req.body.username;
    var password = req.body.password;
 
-console.log('u: ' + username + ' pass: ' + password);
+   if ((username.trim() === '' || password.trim() === '') || (username.length > 15 || password.length > 8)) {
+       res.status(500).send("Invalid Username/Password. Please try again");
+       return;
+   }
+   
    var salt = crypto.randomBytes(128).toString('hex');
    var dbString = hash(password, salt);
 
-console.log('INSERT INTO "user" (username, password) VALUES');
+
    pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function (err, result) {
       if (err) {
           res.status(500).send(err.toString());
@@ -180,6 +184,11 @@ console.log('INSERT INTO "user" (username, password) VALUES');
 app.post('/login', function (req, res) {
    var username = req.body.username;
    var password = req.body.password;
+   
+   if ((username.trim() === '' || password.trim() === '') || (username.length > 15 || password.length > 8)) {
+       res.status(500).send("Invalid Username/Password. Please try again");
+       return;
+   }
    
    pool.query('SELECT * FROM "user" WHERE username = $1', [username], function (err, result) {
       if (err) {
