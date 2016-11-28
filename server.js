@@ -163,11 +163,9 @@ app.post('/create-user', function (req, res) {
    var username = req.body.username;
    var password = req.body.password;
 
-console.log('u: ' + username + ' pass: ' + password);
    var salt = crypto.randomBytes(128).toString('hex');
    var dbString = hash(password, salt);
 
-console.log('INSERT INTO "user" (username, password) VALUES');
    pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function (err, result) {
       if (err) {
           res.status(500).send(err.toString());
@@ -175,6 +173,25 @@ console.log('INSERT INTO "user" (username, password) VALUES');
           res.send('User successfully created: ' + username);
       }
    });
+});
+
+app.post('/update-password', function (req, res) {
+	var username = req.body.username;
+	var password = req.body.password;
+
+	var salt = crypto.randomBytes(128).toString('hex');
+	var dbString = hash(password, salt);
+
+	pool.query('UPDATE "user" set password=$1 where username=$2', [dbString, username], function (err, result) {
+		if (err) {
+			res.status(500).send(err.toString());
+		} else {
+			if (result.rowCount === 1) 
+				res.send('Password successfully updated');
+			else 
+				res.status(403).send("User doesn't exist.")
+		}
+	});
 });
 
 app.post('/login', function (req, res) {
@@ -186,7 +203,7 @@ app.post('/login', function (req, res) {
           res.status(500).send(err.toString());
       } else {
           if (result.rows.length === 0) {
-              res.status(403).send('username/password is invalid');
+              res.status(403).send('Username/password is invalid');
           } else {
               // Match the password
               var dbString = result.rows[0].password;

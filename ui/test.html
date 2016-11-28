@@ -6,9 +6,72 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>           
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>             
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
   </head>
   <body>
       <div class="card-panel teal lighten-2"><h3>Hello World!</h3></div>
+		<input type="text" value="" id="usr">
+		<button id="click" >Click</button>
+		<div id="resultDiv"></div>
+		<script>
+			var butt = $('#click');
+            var html = '';
+
+			butt.click(function() {             
+			var requestData = $('#usr').val();
+
+			$.ajax({
+					//url : 'http://api.tvmaze.com/search/shows',
+					//url : 'http://api.openweathermap.org/data/2.5/weather?lat='+position.coords.latitude+'&lon='+position.coords.longitude+'&APPID=9ff24aa89f0e5dfc05d21e0903fcd70b',
+					url : 'http://api.openweathermap.org/data/2.5/weather?lat=12.9833&lon=77.5833&APPID=9ff24aa89f0e5dfc05d21e0903fcd70b',
+					method:'get',
+					data: {q:requestData},
+					dataType : 'json',
+					success : function(data){
+
+						if(data.message != null)
+						{
+							alert(data.message);
+						}
+
+						/*$.each(data,function(i,item){
+
+							html +=	
+							'<div class="jumbotron top-space">' +
+							'<div class="row">'+
+							'<div class="col-sm-4">' +
+
+							'<br>' + 
+									'<h3>'+ item.show.name + '</h3>' + '<br>'+
+									'<img src='+ 
+											item.show.image.medium +
+											'>' + '<hr>'+
+							'</div>'+
+							'<div class="col-sm-8">'+
+								'<h4>'+ 'Genres: </h4>' + item.show.genres  + '<br>'+
+								'<h4>Summary:</h4> '+ item.show.summary + '<br>' +
+								'<h4>Rating:</h4>' + item.show.rating.average+ '<br>'+
+								'<h4>Premiered on and Status:</h4>' + item.show.premiered +
+										 ', '+ item.show.status + '<br>' +
+								'<h4>Airs at</h4> ' + item.show.schedule.time +' on ' + item.show.schedule.days+ ' '+
+								'<br> <hr>' +
+							'</div>' +
+							'</div>' +
+
+							'</div>';
+
+                            $('#resultDiv').html(html);
+
+
+                        });*/
+
+
+                        }
+
+                });
+            });
+
+							
+		</script>             
    </body>
 </html>
