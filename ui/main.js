@@ -364,7 +364,7 @@ function loadLoginForm () {
 				$('#logerr1').css('visibility', 'visible');
 				$('#logerr1').css('color', 'red');
               } else if (request.status === 500) {
-				$('#logerr1').html('Something went wrong on the server');
+				$('#logerr1').html(this.responseText);
 				$('#logerr1').css('visibility', 'visible');
 				$('#logerr1').css('color', 'red');
               } else {
@@ -412,9 +412,7 @@ function loadLoginForm () {
 					$('#logerr2').css('visibility', 'hidden');
 
               } else {
-					//register.value = 'Register';
-					console.log(this.responseText);
-					$('#logerr2').html('Could not sign up the user');
+					$('#logerr2').html(this.responseText);
 					$('#logerr2').css('visibility', 'visible');
 					$('#logerr2').css('color', 'red');
               }

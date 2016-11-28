@@ -168,19 +168,23 @@ app.post('/create-user', function (req, res) {
 
    if ((username.trim() === '' || password.trim() === '') || (username.length > 15 || password.length > 8)) {
        res.status(500).send("Invalid Username/Password. Please try again");
-       return;
    }
-   
-   var salt = crypto.randomBytes(128).toString('hex');
-   var dbString = hash(password, salt);
 
-   pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function (err, result) {
-      if (err) {
-          res.status(500).send(err.toString());
-      } else {
-          res.send('User successfully created: ' + username);
-      }
-   });
+	if(!/^[a-zA-Z0-9_.@]+$/.test(username))  //If username contains other than a-z,A-Z,0-9 then true.
+    {
+        res.status(500).send('Username cannot contain special characters.');
+	} else {
+		var salt = crypto.randomBytes(128).toString('hex');
+		var dbString = hash(password, salt);
+
+		pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function (err, result) {
+			if (err) {
+				res.status(500).send(err.toString());
+			} else {
+				res.send('User successfully created: ' + username);
+			}
+		});
+	}
 });
 
 app.post('/update-password', function (req, res) {
@@ -211,33 +215,38 @@ app.post('/login', function (req, res) {
        return;
    }
    
-   pool.query('SELECT * FROM "user" WHERE username = $1', [username], function (err, result) {
-      if (err) {
-          res.status(500).send(err.toString());
-      } else {
-          if (result.rows.length === 0) {
-              res.status(403).send('Username/password is invalid');
-          } else {
-              // Match the password
-              var dbString = result.rows[0].password;
-              var salt = dbString.split('$')[2];
-              var hashedPassword = hash(password, salt); // Creating a hash based on the password submitted and the original salt
-              if (hashedPassword === dbString) {
+	if(!/^[a-zA-Z0-9_.@]+$/.test(username))  //If username contains other than a-z,A-Z,0-9 then true.
+    {
+        res.status(500).send('Username cannot contain special characters.');
+	} else {
+	   pool.query('SELECT * FROM "user" WHERE username = $1', [username], function (err, result) {
+    	  if (err) {
+        	  res.status(500).send(err.toString());
+	      } else {
+    	      if (result.rows.length === 0) {
+        	      res.status(403).send('Username/password is invalid');
+	          } else {
+    	          // Match the password
+        	      var dbString = result.rows[0].password;
+            	  var salt = dbString.split('$')[2];
+	              var hashedPassword = hash(password, salt); // Creating a hash based on the password submitted and the original salt
+    	          if (hashedPassword === dbString) {
                 
-                // Set the session
-                req.session.auth = {userId: result.rows[0].id};
-                // set cookie with a session id
-                // internally, on the server side, it maps the session id to an object
-                // { auth: {userId }}
+        	        // Set the session
+            	    req.session.auth = {userId: result.rows[0].id};
+                	// set cookie with a session id
+	                // internally, on the server side, it maps the session id to an object
+    	            // { auth: {userId }}
                 
-                res.send('credentials correct!');
+        	        res.send('credentials correct!');
                 
-              } else {
-                res.status(403).send('username/password is invalid');
-              }
-          }
-      }
+    	      	} else {
+                	res.status(403).send('username/password is invalid');
+	            }
+          	}
+      	}
    });
+	}
 });
 
 app.get('/check-login', function (req, res) {
