@@ -43,6 +43,7 @@ var logout = $('#logout');
 
 if (logout) {
 		logout.click(function() {
+				$.blockUI();
 
 			var req = new XMLHttpRequest();
 
@@ -68,6 +69,7 @@ if (logout) {
 						$('#editperm').hide();
 					}
 				}
+				$.unblockUI();
 			};
 
 			req.open('GET', '/logout', true);
@@ -171,6 +173,7 @@ $( document ).ready(function() {
 			$(".profilecard").remove();
   		$(this).prev().html(profileCard());
 	});*/
+	$.unblockUI();
 });
 
 function showArticle(data) {
