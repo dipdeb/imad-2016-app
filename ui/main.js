@@ -194,7 +194,9 @@ function showArticle(data) {
 		}
 	};
 
-	request.open('GET', '/articles/'+data, true);
+	var url = '/articles/'+encodeURIComponent(data);
+
+	request.open('GET', url, true);
 	request.send(null);
 
 	loadComments();
@@ -245,8 +247,10 @@ console.log()
 
 				var artdate = new Date(`${articleData[0].date}`);
 				firstArticleUser = articleData[0].username;
+				var title = escapeQuote(articleData[0].title);
 
 				var defaultArticle = `
+						<script>document.title='${title}'</script>
 						<h2>${articleData[0].heading}</h2>
 						<h5><span class="glyphicon glyphicon-time"></span> Post by ${articleData[0].username}, ${artdate.toDateString()}.</h5>
 						<h5 id="editperm" style="display: none;"><span class="glyphicon glyphicon-edit"></span>Edit <span class="glyphicon glyphicon-remove"></span>Delete </h5><br>
@@ -536,4 +540,8 @@ function profileCard()
 	`;
 
 	return divElem;
+}
+
+function escapeQuote(str) {
+	return str.replace('\'', '\\\'').trim();
 }

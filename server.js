@@ -45,8 +45,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
+function escapeQuote(str) {
+	return str.replace('\'', '\\\'').trim();
+}
+
 function createTemplate (req, data) {
-	var title = data.title;
+	var title = escapeQuote(data.title);
 	var date = data.date;
 	var heading = data.heading;
 	var content = data.content;
@@ -103,6 +107,7 @@ app.get('/favicon.ico', function (req, res) {
 });
 
 app.get('/articles/:articleName', function (req, res) {
+console.log("================>" + req.params.articleName)
 
 	pool.query('select * from n_article a, "user" u where title = $1 and a.user_id = u.id', [req.params.articleName], function (err, result) {
 		if (err)
