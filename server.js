@@ -336,6 +336,8 @@ app.listen(app.get('port'), function() {
 	console.log('Node app is running on port', app.get('port'));
 });
 
+app.use(express.static('public'));
+
 app.get('/ui/:fileName', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', req.params.fileName));
 });

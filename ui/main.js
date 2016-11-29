@@ -174,6 +174,7 @@ $( document ).ready(function() {
   		$(this).prev().html(profileCard());
 	});*/
 	$.unblockUI();
+
 });
 
 function showArticle(data) {
@@ -545,3 +546,40 @@ function profileCard()
 function escapeQuote(str) {
 	return str.replace('\'', '\\\'').trim();
 }
+
+function changeLink(obj)
+{
+	console.log(obj.id);
+}
+
+$(function(){
+
+if (1 == 0) {
+    $(".dropdown-menu li a").click(function(){
+		$.blockUI();
+
+		/*$(".btn:first-child").text($(this).text());
+		$(".btn:first-child").val($(this).text());*/
+		var themename = $(this).text();
+		var selText = $(this).html();
+		$(this).parents('.dropdown').find('.dropdown-toggle')
+         .html(selText+'<span class="caret"></span>');
+		if (themename.toLowerCase() === 'default')
+			$('#stylelnk').attr('href', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+		else
+			$('#stylelnk').attr('href', '/theme/'+themename.toLowerCase()+'/bootstrap.css');
+		$.unblockUI();
+   });
+}
+});
+
+$('#themeMenu > li > a').click(function(e){
+	console.log('clicked');
+    $('#themeMenu > li > a').removeClass('selected');
+    $(this).addClass('selected'); 
+	var themename = $(this).text();
+	if (themename.toLowerCase() === 'default')
+		$('#stylelnk').attr('href', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+	else
+		$('#stylelnk').attr('href', '/theme/'+themename.toLowerCase()+'/bootstrap.css');
+});
