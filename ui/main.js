@@ -560,24 +560,6 @@ function changeLink(obj)
 
 $(function(){
 
-if (1 == 0) {
-    $(".dropdown-menu li a").click(function(){
-		$.blockUI();
-
-		/*$(".btn:first-child").text($(this).text());
-		$(".btn:first-child").val($(this).text());*/
-		var themename = $(this).text();
-		var selText = $(this).html();
-		$(this).parents('.dropdown').find('.dropdown-toggle')
-         .html(selText+'<span class="caret"></span>');
-		if (themename.toLowerCase() === 'default')
-			$('#stylelnk').attr('href', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
-		else
-			$('#stylelnk').attr('href', '/theme/'+themename.toLowerCase()+'/bootstrap.css');
-		$.unblockUI();
-   });
-}
-});
 
 $('#themeMenu > li > a').click(function(e){
 	console.log('clicked');
@@ -588,4 +570,70 @@ $('#themeMenu > li > a').click(function(e){
 		$('#stylelnk').attr('href', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 	else
 		$('#stylelnk').attr('href', '/theme/'+themename.toLowerCase()+'/bootstrap.css');
+});
+
+//$('#aboutme > li > a').click(function(e) {
+$('#aboutme > a').click(function(e) {
+	console.log('++ +++');
+
+	$.ajax({
+		type: "GET",
+		url: '/userinfo/id',
+		success: function(data)
+		{
+			$('#user_body').html(data);
+			$('#user-modal').modal('show');
+		}, 
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus + errorThrown);
+		}
+	});
+	
+/*	
+var userInfo = `<div class="container">
+
+	<div class="row">
+        <div class="col-md-2 col-lg-2 " align="center"> <img alt="User Pic" src="https://tracker.moodle.org/secure/attachment/30912/f3.png" class="img-circle img-responsive"> </div>
+                
+	<div class=" col-md-4 col-lg-4 "> 
+		<table class="table table-user-information">
+        	<tbody>
+            	<tr>
+					<td>Interest:</td>
+					<td>Programming, Sports</td>
+				</tr>
+				<tr>
+					<td>Member since:</td>
+					<td>06/23/2013</td>
+				</tr>
+				<tr>
+					<td>Date of Birth</td>
+					<td>DD/MM/YYY</td>
+				</tr>
+				<tr>
+					<td>Gender</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Address</td>
+					<td>Bangalore, India</td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><a href="mailto:blogger@gmailx.com">blogger@gmailx.com</a></td>
+				</tr>
+					<td>Phone Number</td>
+					<td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</div>
+
+</div>`;
+			$('#user_body').html(userInfo);
+			$('#user-modal').modal('show');
+*/
+});
+
 });

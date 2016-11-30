@@ -57,6 +57,11 @@
 	#themeMenu > li > a.selected > .fa{
     	visibility:visible;
 	}
+
+	.modal-dialog.large {
+    	 width: 65%;
+	}
+
   </style>
 </head>
 <body>
@@ -78,7 +83,7 @@ $.blockUI();
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li id="new_article" style="display:none;"><a href="#" data-toggle="modal" data-target="#article-modal">New Article</a></li>
-				<li><a href="#">Settings</a></li>
+				<!--li><a href="#">Settings</a></li-->
 				<li class="dropdown">
 		          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Theme
         		  <span class="caret"></span></a>
@@ -90,15 +95,16 @@ $.blockUI();
         		    <li><a href="#"><i class="fa fa-check"></i>United</a></li> 
 		          </ul>
         		</li>
-				<li class="dropdown">
-		          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile
+				<li id="aboutme"><a href="#">About</a></li>
+				<!--li class="dropdown">
+		          <a class="dropdown-toggle" data-toggle="dropdown" href="#">About
         		  <span class="caret"></span></a>
-		          <ul class="dropdown-menu">
+		          <ul id="aboutme" class="dropdown-menu">
         		    <li><a href="#">Github</a></li>
 		            <li><a href="#">Twitter</a></li>
         		    <li><a href="#">LinkedIn</a></li> 
 		          </ul>
-        		</li>
+        		</li-->
 				<li id="login"><a href="#" data-toggle="modal" data-target="#login-modal"><span style="margin-right: 5px;" class="glyphicon glyphicon-log-in"></span>Login</a></li>
 				<!--li style="display:none" id="logout"><a href="#">Logout</a></li-->
 				<li style="display:none" id="li_logout" class="dropdown">
@@ -252,6 +258,27 @@ $.blockUI();
 			</div>
 		</div>
 	</div-->
+<div class="modal fade" id="user-modal" role="dialog">
+    <div class="modal-dialog large">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Profile</h4>
+        </div>
+        <div class="modal-body" id="user_body">
+        </div>
+        <!--div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div-->
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
 <div class="modal fade bs-modal-sm" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">

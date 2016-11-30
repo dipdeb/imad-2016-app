@@ -6,10 +6,11 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-const url = require('url')
-
+if (1 == 0) {
+	const url = require('url')
 	const params = url.parse(process.env.DATABASE_URL);
 	const auth = params.auth.split(':');
+}
 
 var config = {
 	/*user: auth[0],
@@ -32,7 +33,7 @@ var config = {
 		host: 'db.imad.hasura-app.io',
 		port: '5432',
 		password: process.env.DB_PASSWORD
-	}, 
+	}/*, 
 	others: {
 			user: auth[0],
 			password: auth[1],
@@ -40,7 +41,7 @@ var config = {
 			port: params.port,
 			database: params.pathname.split('/')[1],
 			ssl: true 
-	}
+	}*/
 }
 
 var app = express();
@@ -80,8 +81,8 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-//var pool = new Pool(config.prod);
-var pool = new Pool(config.others);
+var pool = new Pool(config.prod);
+//var pool = new Pool(config.others);
 //var pool = new Pool(config.dev);
 var counter;
 
@@ -96,6 +97,49 @@ app.get('/counter', function (req, res) {
                 console.log("");
         }
     });
+});
+
+app.get('/userinfo/:id', function(req, res) {
+	var userInfo = `<div class="container">
+		<div class="row">
+    	    <div class="col-md-2 col-lg-2" align="center"> <img alt="User Pic" src="https://tracker.moodle.org/secure/attachment/30912/f3.png" class="img-circle img-responsive">Anon</div>
+			<div class=" col-md-6 col-lg-6"> 
+				<table class="table table-user-information">
+        			<tbody>
+            			<tr>
+							<td>Interest:</td>
+							<td>Programming, Sports, Technology & Movies</td>
+						</tr>
+						<tr>
+							<td>Member since:</td>
+							<td>10/25/2016</td>
+						</tr>
+						<tr>
+							<td>Total Articles:</td>
+							<td>5</td>
+						</tr>
+						<tr>
+							<td>Last Login:</td>
+							<td>1min ago</td>
+						</tr>
+						<tr>
+							<td>Address</td>
+							<td>Bangalore, India</td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td><a href="mailto:blogger@gmailx.com">blogger@gmailx.com</a></td>
+						</tr>
+							<td>Phone Number</td>
+							<td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>`;
+
+	res.send(userInfo);
 });
 
 pool.query('SELECT * from visitors', function(err, result){
