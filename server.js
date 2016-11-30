@@ -34,7 +34,7 @@ var config = {
 		host: 'db.imad.hasura-app.io',
 		port: '5432',
 		password: process.env.DB_PASSWORD
-	}/*, 
+	}, 
 	others: {
 			user: auth[0],
 			password: auth[1],
@@ -42,7 +42,7 @@ var config = {
 			port: params.port,
 			database: params.pathname.split('/')[1],
 			ssl: true 
-	}*/
+	}
 }
 
 var app = express();
