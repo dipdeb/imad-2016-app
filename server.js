@@ -8,10 +8,8 @@ var session = require('express-session');
 
 const url = require('url')
 
-if (process.env.DATABASE_URL) {
 	const params = url.parse(process.env.DATABASE_URL);
 	const auth = params.auth.split(':');
-}
 
 var config = {
 	/*user: auth[0],
