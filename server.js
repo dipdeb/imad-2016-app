@@ -82,8 +82,8 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-var pool = new Pool(config.prod);
-//var pool = new Pool(config.others);
+//var pool = new Pool(config.prod);
+var pool = new Pool(config.others);
 //var pool = new Pool(config.dev);
 var counter;
 
