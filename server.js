@@ -6,10 +6,10 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-/*const url = require('url')
+const url = require('url')
 
 const params = url.parse(process.env.DATABASE_URL);
-const auth = params.auth.split(':');*/
+const auth = params.auth.split(':');
 
 var config = {
 	/*user: auth[0],
@@ -32,6 +32,14 @@ var config = {
 		host: 'db.imad.hasura-app.io',
 		port: '5432',
 		password: process.env.DB_PASSWORD
+	}, 
+	others: {
+		user: auth[0],
+		password: auth[1],
+		host: params.hostname,
+		port: params.port,
+		database: params.pathname.split('/')[1],
+		ssl: true 
 	}
 }
 
@@ -72,7 +80,8 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-var pool = new Pool(config.prod);
+//var pool = new Pool(config.prod);
+var pool = new Pool(config.others);
 //var pool = new Pool(config.dev);
 var counter;
 
