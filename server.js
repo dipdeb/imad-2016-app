@@ -102,8 +102,8 @@ app.get('/counter', function (req, res) {
 app.get('/userinfo/:id', function(req, res) {
 	var userInfo = `<div class="container">
 		<div class="row">
-    	    <div class="col-md-2 col-lg-2" align="center"> <img alt="User Pic" src="https://tracker.moodle.org/secure/attachment/30912/f3.png" class="img-circle img-responsive">Anon</div>
-			<div class=" col-md-6 col-lg-6"> 
+    	    <div class="col-md-1 col-lg-1" align="center"> <img alt="User Pic" src="https://tracker.moodle.org/secure/attachment/30912/f3.png" class="img-circle img-responsive">Anon</div>
+			<div class=" col-md-5 col-lg-5"> 
 				<table class="table table-user-information">
         			<tbody>
             			<tr>
