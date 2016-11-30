@@ -152,7 +152,14 @@ $( document ).ready(function() {
 	$('.modal').on('hidden.bs.modal', function(){
 		$('#logerr1').css('visibility', 'hidden');
 		$('#logerr2').css('visibility', 'hidden');
-		//$('#login_btn').val('Login');
+
+		// Clear the fields and set SignIn as default
+		$(this).find("input,textarea,select").val('').end();
+		$("#myTab li").removeClass("active");
+		$('#myTab li:first-child').addClass("active");
+
+		$('#signup').removeClass("active in");
+		$('#signin').addClass("active in");
 	});
 
 	loadLogin();
@@ -228,7 +235,6 @@ function loadArticleList () {
             if (request.status === 200) {
                 var response = JSON.parse(this.responseText);
 				var articleData = response.result;
-console.log()
 				var recentId = 0;
 				var content = '';
                 for (var i=0; i< articleData.length; i++) {

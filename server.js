@@ -85,9 +85,8 @@ app.get('/counter', function (req, res) {
             return(err.toString());
         } else {
                 console.log("");
-            }
+        }
     });
-
 });
 
 pool.query('SELECT * from visitors', function(err, result){
@@ -107,7 +106,6 @@ app.get('/favicon.ico', function (req, res) {
 });
 
 app.get('/articles/:articleName', function (req, res) {
-console.log("================>" + req.params.articleName)
 
 	pool.query('select * from n_article a, "user" u where title = $1 and a.user_id = u.id', [req.params.articleName], function (err, result) {
 		if (err)
