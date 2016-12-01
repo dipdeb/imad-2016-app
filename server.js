@@ -59,13 +59,13 @@ function createTemplate (req, data) {
     
 	var htmlTemplate = `
 		<script>document.title='${title}'</script>
-		<h2>${heading}</h2>
+		<h2 style="word-wrap: break-word">${heading}</h2>
 		<h5><span class="glyphicon glyphicon-time"></span> Post by ${data.username}, ${date.toDateString()}.</h5>`;
 
  	if (req.session && req.session.auth && req.session.auth.userId && (data.user_id === req.session.auth.userId)) 
 		htmlTemplate += `<h5 id="editperm" style="display: none;"><span class="glyphicon glyphicon-edit"></span>Edit <span class="glyphicon glyphicon-remove"></span>Delete </h5><br>`;
 
-	htmlTemplate += `<p>${content}</p>`;
+	htmlTemplate += `${content}`;
 
 	return htmlTemplate;
 }
@@ -225,7 +225,7 @@ app.post('/create-article', function (req, res) {
 	var content = req.body.content;
 	
 	//content = '<p>'+removeTags(content)+'</p>';
-	content = '<p>'+content+'</p>';
+	content = '<p style="word-wrap: break-word">'+content+'</p>';
 	var userId = req.session.auth.userId;
 	pool.query("insert into n_article(title, user_id, heading, date, content) values($1, $2, $3, $4, $5)", [title, userId, title, new Date(), content], function (err, result) {
 		if (err)

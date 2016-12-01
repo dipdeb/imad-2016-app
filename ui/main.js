@@ -493,7 +493,7 @@ function loadComments () {
 						</div>
 						<div class="col-sm-11">
 						  <h4>${obj[i].username} - <small>${time.toLocaleTimeString()} on ${time.toLocaleDateString()}</small></h4>
-						  <p>${obj[i].comment}</p> 
+						  <p style="word-wrap: break-word">${obj[i].comment}</p> 
 						  <br>
 						</div>`
 				}
