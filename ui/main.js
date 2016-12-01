@@ -1,5 +1,6 @@
 var newart = $('#newart');
 var firstArticleUser = '';
+var user = '';
 
 if (newart) {
 		newart.click(function() {
@@ -41,9 +42,22 @@ if (newart) {
 
 var logout = $('#logout');
 
+function block()
+{
+	$.blockUI({ css: { 
+            border: 'none', 
+            padding: '15px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: .5, 
+            color: '#fff' 
+        } });
+}
+
 if (logout) {
 		logout.click(function() {
-				$.blockUI();
+			block();
 
 			var req = new XMLHttpRequest();
 
@@ -67,6 +81,7 @@ if (logout) {
 						$('#login').show();
 						$('#commentbox').hide();
 						$('#editperm').hide();
+						user = '';
 					}
 				}
 				$.unblockUI();
@@ -288,6 +303,7 @@ function loadArticleList () {
 }
 
 function loadLoggedInUser (username) {
+	user = username;
 	$('#login').hide();
 	$('#li_logout').show();
 	$('#new_article').show();
@@ -572,9 +588,8 @@ $('#themeMenu > li > a').click(function(e){
 		$('#stylelnk').attr('href', '/theme/'+themename.toLowerCase()+'/bootstrap.css');
 });
 
-//$('#aboutme > li > a').click(function(e) {
 $('#aboutme > a').click(function(e) {
-	console.log('++ +++');
+	var url = 'Dipanjan'
 
 	$.ajax({
 		type: "GET",

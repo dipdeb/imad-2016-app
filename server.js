@@ -13,13 +13,6 @@ if (1 == 0) {
 }
 
 var config = {
-	/*user: auth[0],
-	password: auth[1],
-	host: params.hostname,
-	port: params.port,
-	database: params.pathname.split('/')[1],
-	ssl: true */
-
 	dev: {
 		user: 'dipanjan',
 		database: 'imad',
@@ -99,39 +92,78 @@ app.get('/counter', function (req, res) {
     });
 });
 
+var user = {
+	"name": "Dipanjan",
+	"interest": "Programming, Sports, Technology & Movies",
+	"since": "10/25/2016",
+	"articles": "7",
+	"lastlog": "1 min ago",
+	"address": "Bangalore, India", 
+}
+
 app.get('/userinfo/:id', function(req, res) {
 	var userInfo = `<div class="container">
 		<div class="row">
-    	    <div class="col-md-1 col-lg-1" align="center"> <img alt="User Pic" src="https://tracker.moodle.org/secure/attachment/30912/f3.png" class="img-circle img-responsive">Anon</div>
+    	    <div class="col-md-1 col-lg-1" align="center"> <img alt="User Pic" src="https://tracker.moodle.org/secure/attachment/30912/f3.png" class="img-circle img-responsive">${user.name}</div>
 			<div class=" col-md-5 col-lg-5"> 
 				<table class="table table-user-information">
         			<tbody>
             			<tr>
 							<td>Interest:</td>
-							<td>Programming, Sports, Technology & Movies</td>
+							<td>${user.interest}</td>
 						</tr>
 						<tr>
 							<td>Member since:</td>
-							<td>10/25/2016</td>
+							<td>${user.since}</td>
 						</tr>
 						<tr>
 							<td>Total Articles:</td>
-							<td>5</td>
+							<td>${user.articles}</td>
 						</tr>
 						<tr>
 							<td>Last Login:</td>
-							<td>1min ago</td>
+							<td>${user.lastlog}</td>
 						</tr>
 						<tr>
 							<td>Address</td>
-							<td>Bangalore, India</td>
+							<td>${user.address}</td>
 						</tr>
 						<tr>
-							<td>Email</td>
+							<td><span class="glyphicon glyphicon-envelope"></span></td>
 							<td><a href="mailto:blogger@gmailx.com">blogger@gmailx.com</a></td>
 						</tr>
-							<td>Phone Number</td>
+							<td><span class="glyphicon glyphicon-phone"></td>
 							<td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<ul class="list-inline text-center">
+	                                <li>
+										<a target="_blank" href="https://twitter.com/dipanjohn">
+											<span class="fa-stack fa-lg">
+												<i class="fa fa-circle fa-stack-2x"></i>
+												<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+											</span>
+										</a>	
+        	                        </li>
+	                                <li>
+										<a target="_blank" href="https://facebook.com/dipanjohn">
+											<span class="fa-stack fa-lg">
+												<i class="fa fa-circle fa-stack-2x"></i>
+												<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+											</span>
+										</a>	
+        	                        </li>
+	                                <li>
+										<a target="_blank" href="https://github.com/dipdeb">
+											<span class="fa-stack fa-lg">
+												<i class="fa fa-circle fa-stack-2x"></i>
+												<i class="fa fa-github fa-stack-1x fa-inverse"></i>
+											</span>
+										</a>	
+        	                        </li>
+								</ul>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -179,7 +211,7 @@ app.get('/test/:category/:title', function(req, res) {
 });
 
 app.get('/get-articles', function (req, res) {
-	pool.query('SELECT * FROM n_article a, "user" u where a.user_id = u.id ORDER BY date DESC', function (err, result) {
+	pool.query('SELECT u.id, title, heading, date, content, username FROM n_article a, "user" u where a.user_id = u.id ORDER BY date DESC', function (err, result) {
 		if (err) {
 			res.status(500).send(err.toString());
 		} else {
