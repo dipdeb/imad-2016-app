@@ -26,17 +26,27 @@ if (newart) {
 
 			var title = $('#title').val();
 			title = html_sanitize(title, urlX, idX);
+
+			// Clear the form once successfully submitted
+			$('.modal').on('hidden.bs.modal', function(){
+				$('#logerr3').css('visibility', 'hidden');
+   				 $(this).find('form')[0].reset();
+			});
+
 			var content = $('#content').val();
+			if (content.trim() === '' || title.trim() === '') {
+				$('#logerr3').html("Title/Content can't be left empty.");
+				$('#logerr3').css('visibility', 'visible');
+				$('#logerr3').css('color', 'red');
+				return;
+			}
+
 			content = html_sanitize(content, urlX, idX);
 			req.open('POST', '/create-article', true);
 	        req.setRequestHeader('Content-Type', 'application/json');
     	    req.send(JSON.stringify({title: title, content: content}));
 
 			$('#article-modal').modal('hide');
-			// Clear the form once successfully submitted
-			$('.modal').on('hidden.bs.modal', function(){
-   				 $(this).find('form')[0].reset();
-			});
 		});
 }
 

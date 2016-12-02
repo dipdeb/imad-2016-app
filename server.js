@@ -223,17 +223,25 @@ app.get('/get-articles', function (req, res) {
 app.post('/create-article', function (req, res) {
 	var title = req.body.title;
 	var content = req.body.content;
+
+	if ((title.trim() === '' || content.trim() === '')) {
+       res.status(500).send("Title/Content can't be left empty");
+	}
 	
 	//content = '<p>'+removeTags(content)+'</p>';
 	content = '<p style="word-wrap: break-word">'+content+'</p>';
 	var userId = req.session.auth.userId;
-	pool.query("insert into n_article(title, user_id, heading, date, content) values($1, $2, $3, $4, $5)", [title, userId, title, new Date(), content], function (err, result) {
-		if (err)
-			res.status(500).send(err.toString());
-		else {
-			res.status(200).send('Successfully created');
-		}   
-	});
+
+	
+    if (req.session && req.session.auth && req.session.auth.userId) {
+		pool.query("insert into n_article(title, user_id, heading, date, content) values($1, $2, $3, $4, $5)", [title, userId, title, new Date(), content], function (err, result) {
+			if (err)
+				res.status(500).send(err.toString());
+			else {
+				res.status(200).send('Successfully created');
+			}   
+		});
+	}
 });
 
 function hash (input, salt) {
