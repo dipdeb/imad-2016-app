@@ -8,6 +8,7 @@ if (newart) {
 			var req = new XMLHttpRequest();
 			block();
 
+			var title = $('#title').val();
 			req.onreadystatechange = function() {
 				if (req.readyState === XMLHttpRequest.DONE) {
 					if (req.status === 200) {
@@ -25,7 +26,7 @@ if (newart) {
 					} else {
 						//error: duplicate key value violates unique constraint
 						if (!req.responseText.indexOf("error: duplicate key value violates unique constraint")) {
-							$('#logerr3').html("Article title already exists.");
+							$('#logerr3').html("Article by the same title \""+title+"\" already exists.");
 							$('#logerr3').css('visibility', 'visible');
 							$('#logerr3').css('color', 'red');
 						} else {
@@ -38,7 +39,6 @@ if (newart) {
 				}
 			};
 
-			var title = $('#title').val();
 			title = html_sanitize(title, urlX, idX);
 
 			// Clear the form once successfully submitted
