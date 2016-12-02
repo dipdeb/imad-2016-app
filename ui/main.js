@@ -6,6 +6,7 @@ if (newart) {
 		newart.click(function() {
 
 			var req = new XMLHttpRequest();
+			block();
 
 			req.onreadystatechange = function() {
 				if (req.readyState === XMLHttpRequest.DONE) {
@@ -20,7 +21,20 @@ if (newart) {
 							$("#message-alert").slideUp(500);
 						});   
 						loadArticleList();
+						$('#article-modal').modal('hide');
+					} else {
+						//error: duplicate key value violates unique constraint
+						if (!req.responseText.indexOf("error: duplicate key value violates unique constraint")) {
+							$('#logerr3').html("Article title already exists.");
+							$('#logerr3').css('visibility', 'visible');
+							$('#logerr3').css('color', 'red');
+						} else {
+							$('#logerr3').html("Oops! Something went wrong");
+							$('#logerr3').css('visibility', 'visible');
+							$('#logerr3').css('color', 'red');
+						}	
 					}
+					$.unblockUI();
 				}
 			};
 
@@ -46,7 +60,6 @@ if (newart) {
 	        req.setRequestHeader('Content-Type', 'application/json');
     	    req.send(JSON.stringify({title: title, content: content}));
 
-			$('#article-modal').modal('hide');
 		});
 }
 

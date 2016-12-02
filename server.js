@@ -232,7 +232,6 @@ app.post('/create-article', function (req, res) {
 	content = '<p style="word-wrap: break-word">'+content+'</p>';
 	var userId = req.session.auth.userId;
 
-	
     if (req.session && req.session.auth && req.session.auth.userId) {
 		pool.query("insert into n_article(title, user_id, heading, date, content) values($1, $2, $3, $4, $5)", [title, userId, title, new Date(), content], function (err, result) {
 			if (err)
